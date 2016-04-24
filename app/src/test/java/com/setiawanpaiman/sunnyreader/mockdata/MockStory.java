@@ -3,6 +3,7 @@ package com.setiawanpaiman.sunnyreader.mockdata;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,11 @@ public class MockStory {
     public static Story STORY4 = create(4L, 1023923014L, "Author 4", "Title 4", "http://www.url.com/url4", 40L, new ArrayList<Long>());
     public static Story STORY5 = create(5L, 1023923015L, "Author 5", "Title 5", "http://www.url.com/url5", 50L, new ArrayList<Long>());
     public static Story STORY6 = create(6L, 1023923016L, "Author 6", "Title 6", "http://www.url.com/url6", 60L, new ArrayList<Long>());
-    public static Story STORY7 = create(7L, 1023923017L, "Author 7", "Title 7", "http://www.url.com/url7", 70L, new ArrayList<Long>());
+
+    // Stories with comments
+    public static Story STORY_COMMENT2 = create(7L, 1023923017L, "Author 7", "Title 7", "http://www.url.com/url7", 70L, Arrays.asList(2L));
+    public static Story STORY_COMMENT3 = create(8L, 1023923018L, "Author 8", "Title 8", "http://www.url.com/url8", 80L, Arrays.asList(3L));
+
     public static Map<Long, Story> MAP_STORY;
 
     public static String STORY1_JSON = "{\n"
@@ -28,30 +33,6 @@ public class MockStory {
             + "  \"title\" : \"Title 1\",\n"
             + "  \"type\" : \"story\",\n"
             + "  \"url\" : \"http://www.url.com/url1\"\n"
-            + "}";
-
-    public static String STORY2_JSON = "{\n"
-            + "  \"by\" : \"Author 2\",\n"
-            + "  \"descendants\" : 0,\n"
-            + "  \"id\" : 2,\n"
-            + "  \"kids\" : [ ],\n"
-            + "  \"score\" : 20,\n"
-            + "  \"time\" : 1023923012,\n"
-            + "  \"title\" : \"Title 2\",\n"
-            + "  \"type\" : \"story\",\n"
-            + "  \"url\" : \"http://www.url.com/url2\"\n"
-            + "}";
-
-    public static String STORY3_JSON = "{\n"
-            + "  \"by\" : \"Author 3\",\n"
-            + "  \"descendants\" : 0,\n"
-            + "  \"id\" : 3,\n"
-            + "  \"kids\" : [ ],\n"
-            + "  \"score\" : 30,\n"
-            + "  \"time\" : 1023923013,\n"
-            + "  \"title\" : \"Title 3\",\n"
-            + "  \"type\" : \"story\",\n"
-            + "  \"url\" : \"http://www.url.com/url3\"\n"
             + "}";
 
     public static String STORY_UNKNOWN_JSON = "{\n"

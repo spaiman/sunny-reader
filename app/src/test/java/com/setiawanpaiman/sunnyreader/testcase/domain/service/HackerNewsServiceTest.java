@@ -1,13 +1,16 @@
 package com.setiawanpaiman.sunnyreader.testcase.domain.service;
 
 import com.setiawanpaiman.sunnyreader.Constants;
+import com.setiawanpaiman.sunnyreader.data.model.Comment;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.api.HackerNewsApi;
 import com.setiawanpaiman.sunnyreader.domain.persistent.HackerNewsPersistent;
 import com.setiawanpaiman.sunnyreader.domain.service.HackerNewsService;
+import com.setiawanpaiman.sunnyreader.mockdata.MockComment;
 import com.setiawanpaiman.sunnyreader.mockdata.MockStory;
 import com.setiawanpaiman.sunnyreader.testcase.BaseTest;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,12 +62,26 @@ public class HackerNewsServiceTest extends BaseTest {
         }
     };
 
+    private Answer<Observable<Comment>> commentsAnswer = new Answer<Observable<Comment>>() {
+        @Override
+        public Observable<Comment> answer(InvocationOnMock invocation) throws Throwable {
+            Object[] args = invocation.getArguments();
+            Long commentId = (Long) args[0];
+            return Observable.just(MockComment.MAP_COMMENT.get(commentId));
+        }
+    };
+
     public static List<Long> initTopStories(long from, long to) {
         List<Long> list = new ArrayList<>();
         for (long i = from; i <= to; i++) {
             list.add(i);
         }
         return list;
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        MockComment.resetDepth();
     }
 
     @Test
@@ -160,7 +177,7 @@ public class HackerNewsServiceTest extends BaseTest {
         when(mHackerNewsApi.getTopStories()).thenReturn(Observable.just(initTopStories(1, 5)));
         when(mHackerNewsPersistent.getTopStories(anyInt(), anyInt())).thenReturn(Observable.just(initTopStories(2, 4)));
         when(mHackerNewsApi.getStory(anyLong()))
-                .thenReturn(Observable.<Story> error(new Exception(""))).thenAnswer(storiesAnswer);
+                .thenReturn(Observable.<Story> error(new Exception())).thenAnswer(storiesAnswer);
         when(mHackerNewsPersistent.getStory(anyLong())).thenReturn(Observable.just(MockStory.STORY6));
 
         TestSubscriber<Story> testSubscriber = new TestSubscriber<>();
@@ -177,5 +194,111 @@ public class HackerNewsServiceTest extends BaseTest {
         assertEquals(MockStory.STORY6, emittedStories.get(0));
         assertEquals(MockStory.STORY3, emittedStories.get(1));
         assertEquals(MockStory.STORY4, emittedStories.get(2));
+    }
+
+    @Test
+    public void testGetComments() throws Exception {
+        when(mHackerNewsApi.getComment(anyLong())).thenAnswer(commentsAnswer);
+        when(mHackerNewsPersistent.getComment(anyLong())).thenAnswer(commentsAnswer);
+
+        TestSubscriber<Comment> testSubscriber = new TestSubscriber<>();
+        mHackerNewsService.getComments(MockStory.STORY_COMMENT2).subscribe(testSubscriber);
+        verify(mHackerNewsApi, times(6)).getComment(anyLong());
+        verify(mHackerNewsPersistent, times(6)).saveComment(any(Comment.class));
+        testSubscriber.assertNoErrors();
+        List<Comment> emittedComments = testSubscriber.getOnNextEvents();
+        assertEquals(6, emittedComments.size());
+        assertEquals(MockComment.COMMENT2, emittedComments.get(0));
+        assertEquals(MockComment.COMMENT21, emittedComments.get(1));
+        assertEquals(MockComment.COMMENT211, emittedComments.get(2));
+        assertEquals(MockComment.COMMENT22, emittedComments.get(3));
+        assertEquals(MockComment.COMMENT221, emittedComments.get(4));
+        assertEquals(MockComment.COMMENT222, emittedComments.get(5));
+
+        assertEquals(0, emittedComments.get(0).getDepth());
+        assertEquals(1, emittedComments.get(1).getDepth());
+        assertEquals(2, emittedComments.get(2).getDepth());
+        assertEquals(1, emittedComments.get(3).getDepth());
+        assertEquals(2, emittedComments.get(4).getDepth());
+        assertEquals(2, emittedComments.get(5).getDepth());
+    }
+
+    @Test
+    public void testGetCommentsWithADeletedComment() throws Exception {
+        when(mHackerNewsApi.getComment(anyLong())).thenAnswer(commentsAnswer);
+        when(mHackerNewsPersistent.getComment(anyLong())).thenAnswer(commentsAnswer);
+
+        TestSubscriber<Comment> testSubscriber = new TestSubscriber<>();
+        mHackerNewsService.getComments(MockStory.STORY_COMMENT3).subscribe(testSubscriber);
+        verify(mHackerNewsApi, times(6)).getComment(anyLong());
+        verify(mHackerNewsPersistent, times(6)).saveComment(any(Comment.class));
+        testSubscriber.assertNoErrors();
+        List<Comment> emittedComments = testSubscriber.getOnNextEvents();
+        assertEquals(5, emittedComments.size());
+        assertEquals(MockComment.COMMENT3, emittedComments.get(0));
+        assertEquals(MockComment.COMMENT311, emittedComments.get(1));
+        assertEquals(MockComment.COMMENT312, emittedComments.get(2));
+        assertEquals(MockComment.COMMENT32, emittedComments.get(3));
+        assertEquals(MockComment.COMMENT321, emittedComments.get(4));
+
+        assertEquals(0, emittedComments.get(0).getDepth());
+        assertEquals(2, emittedComments.get(1).getDepth());
+        assertEquals(2, emittedComments.get(2).getDepth());
+        assertEquals(1, emittedComments.get(3).getDepth());
+        assertEquals(2, emittedComments.get(4).getDepth());
+    }
+
+    @Test
+    public void testGetCommentsWithGetCommentApiNullOnce() throws Exception {
+        when(mHackerNewsApi.getComment(anyLong()))
+                .thenAnswer(commentsAnswer)
+                .thenReturn(Observable.<Comment> just(null)).thenAnswer(commentsAnswer);
+        when(mHackerNewsPersistent.getComment(anyLong())).thenAnswer(commentsAnswer);
+
+        TestSubscriber<Comment> testSubscriber = new TestSubscriber<>();
+        mHackerNewsService.getComments(MockStory.STORY_COMMENT3).subscribe(testSubscriber);
+        verify(mHackerNewsApi, times(4)).getComment(anyLong());
+        verify(mHackerNewsPersistent, times(3)).saveComment(any(Comment.class));
+        testSubscriber.assertNoErrors();
+        List<Comment> emittedComments = testSubscriber.getOnNextEvents();
+        assertEquals(3, emittedComments.size());
+        assertEquals(MockComment.COMMENT3, emittedComments.get(0));
+        assertEquals(MockComment.COMMENT32, emittedComments.get(1));
+        assertEquals(MockComment.COMMENT321, emittedComments.get(2));
+
+        assertEquals(0, emittedComments.get(0).getDepth());
+        assertEquals(1, emittedComments.get(1).getDepth());
+        assertEquals(2, emittedComments.get(2).getDepth());
+    }
+
+    @Test
+    public void testGetCommentsWithGetCommentApiErrorOnce() throws Exception {
+        when(mHackerNewsApi.getComment(anyLong()))
+                .thenAnswer(commentsAnswer)
+                .thenReturn(Observable.<Comment> error(new Exception())).thenAnswer(commentsAnswer);
+        when(mHackerNewsPersistent.getComment(anyLong()))
+                .thenAnswer(commentsAnswer)
+                .thenReturn(Observable.just(MockComment.COMMENT22)).thenAnswer(commentsAnswer);
+
+        TestSubscriber<Comment> testSubscriber = new TestSubscriber<>();
+        mHackerNewsService.getComments(MockStory.STORY_COMMENT3).subscribe(testSubscriber);
+        verify(mHackerNewsApi, times(6)).getComment(anyLong());
+        verify(mHackerNewsPersistent, times(5)).saveComment(any(Comment.class));
+        testSubscriber.assertNoErrors();
+        List<Comment> emittedComments = testSubscriber.getOnNextEvents();
+        assertEquals(6, emittedComments.size());
+        assertEquals(MockComment.COMMENT3, emittedComments.get(0));
+        assertEquals(MockComment.COMMENT22, emittedComments.get(1));
+        assertEquals(MockComment.COMMENT221, emittedComments.get(2));
+        assertEquals(MockComment.COMMENT222, emittedComments.get(3));
+        assertEquals(MockComment.COMMENT32, emittedComments.get(4));
+        assertEquals(MockComment.COMMENT321, emittedComments.get(5));
+
+        assertEquals(0, emittedComments.get(0).getDepth());
+        assertEquals(1, emittedComments.get(1).getDepth());
+        assertEquals(2, emittedComments.get(2).getDepth());
+        assertEquals(2, emittedComments.get(3).getDepth());
+        assertEquals(1, emittedComments.get(4).getDepth());
+        assertEquals(2, emittedComments.get(5).getDepth());
     }
 }
