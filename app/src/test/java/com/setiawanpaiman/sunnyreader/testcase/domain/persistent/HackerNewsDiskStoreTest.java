@@ -185,4 +185,36 @@ public class HackerNewsDiskStoreTest extends BaseTest {
         testSubscriber.assertValue(null);
     }
     // END: GET COMMENT
+
+    // BEGIN: SAVE TOP STORIES
+    @Test
+    public void testSaveTopStories() throws Exception {
+        List<Long> topStories = Arrays.asList(10L, 20L, 30L, 40L, 50L, 60L);
+        HackerNewsDiskStore hackerNewsDiskStore = new HackerNewsDiskStore(mJsonParser,
+                getApplicationComponent().providesSharedPreferences());
+        hackerNewsDiskStore.saveTopStories(topStories);
+
+        TestSubscriber<List<Long>> testSubscriber1 = new TestSubscriber<>();
+        hackerNewsDiskStore.getTopStories(1, 3).subscribe(testSubscriber1);
+        testSubscriber1.assertNoErrors();
+        testSubscriber1.assertValue(topStories.subList(1, 4));
+
+        TestSubscriber<List<Long>> testSubscriber2 = new TestSubscriber<>();
+        hackerNewsDiskStore.getTopStories(3, 3).subscribe(testSubscriber2);
+        testSubscriber2.assertNoErrors();
+        testSubscriber2.assertValue(topStories.subList(3, 6));
+    }
+
+    @Test
+    public void testSaveTopStoriesNull() throws Exception {
+        HackerNewsDiskStore hackerNewsDiskStore = new HackerNewsDiskStore(mJsonParser,
+                getApplicationComponent().providesSharedPreferences());
+        hackerNewsDiskStore.saveTopStories(null);
+
+        TestSubscriber<List<Long>> testSubscriber1 = new TestSubscriber<>();
+        hackerNewsDiskStore.getTopStories(1, 3).subscribe(testSubscriber1);
+        testSubscriber1.assertNoErrors();
+        testSubscriber1.assertValue(new ArrayList<Long>());
+    }
+    // END: SAVE TOP STORIES
 }
