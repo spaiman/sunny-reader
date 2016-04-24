@@ -30,6 +30,8 @@ public class Comment {
     @SerializedName("deleted")
     private boolean mDeleted;
 
+    private int mDepth;
+
     protected Comment(Builder builder) {
         mId = builder.mId;
         mTimestamp = builder.mTimestamp;
@@ -69,6 +71,14 @@ public class Comment {
 
     public boolean isDeleted() {
         return mDeleted;
+    }
+
+    public int getDepth() {
+        return mDepth;
+    }
+
+    public void setDepth(int depth) {
+        mDepth = depth;
     }
 
     public static Builder newBuilder(long id) {
