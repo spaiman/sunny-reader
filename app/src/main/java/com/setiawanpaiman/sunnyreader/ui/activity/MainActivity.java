@@ -1,7 +1,9 @@
-package com.setiawanpaiman.sunnyreader;
+package com.setiawanpaiman.sunnyreader.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.setiawanpaiman.sunnyreader.R;
 
 public class MainActivity extends AppCompatActivity {
 
