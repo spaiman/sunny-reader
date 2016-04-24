@@ -138,7 +138,7 @@ public class HackerNewsDiskStoreTest extends BaseTest {
 
     @Test
     public void testGetStoryParseError() throws Exception {
-        when(mJsonParser.toJson(any(), eq(Story.class))).thenReturn(MockStory.STORY_INVALID_JSON);
+        when(mJsonParser.toJson(any(), eq(Story.class))).thenReturn(MockStory.STORY_UNKNOWN_JSON);
         when(mJsonParser.fromJson(anyString(), eq(Story.class))).thenReturn(null);
         // trigger JsonParser#toJson
         mHackerNewsDiskStore.saveStory(MockStory.STORY1);

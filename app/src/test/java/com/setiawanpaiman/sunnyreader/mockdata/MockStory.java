@@ -47,9 +47,13 @@ public class MockStory {
             + "  \"url\" : \"http://www.url.com/url3\"\n"
             + "}";
 
-    public static String STORY_INVALID_JSON = "{\n"
+    public static String STORY_UNKNOWN_JSON = "{\n"
             + "  \"id\" : 1,\n"
             + "  \"invalid\" : \"Invalid value\",\n"
+            + "}";
+
+    public static String STORY_INVALID_JSON = "{\n"
+            + "  []\n"
             + "}";
 
     public static Story create(long id, long timestamp, String author, String title,
