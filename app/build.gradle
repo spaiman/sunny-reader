@@ -26,6 +26,7 @@ ext {
     androidSupportVersion = "23.3.0"
     retrofitVersion = "2.0.2"
     daggerVersion = "2.2"
+    dbFlowVersion = "3.0.0-beta5"
 }
 
 dependencies {
@@ -37,6 +38,9 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${androidSupportVersion}"
     compile "com.android.support:support-v4:${androidSupportVersion}"
     compile "com.android.support:support-annotations:${androidSupportVersion}"
+    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbFlowVersion}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbFlowVersion}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbFlowVersion}"
     apt "com.google.dagger:dagger-compiler:${daggerVersion}"
     compile "com.google.dagger:dagger:${daggerVersion}"
     compile "com.squareup.okhttp3:okhttp:3.2.0"
