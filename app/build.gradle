@@ -35,7 +35,7 @@ coveralls {
 }
 
 tasks.coveralls {
-    dependsOn 'jacocoTestReport'
+    dependsOn 'jacocoTestDebugUnitTestReport'
     onlyIf { System.env.'CI' }
 }
 
