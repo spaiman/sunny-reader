@@ -1,3 +1,10 @@
+#Android Studio Files
+.idea
+*.iml
+*.iws
+*.ipr
+*.swp
+
 # Built application files
 *.apk
 *.ap_
