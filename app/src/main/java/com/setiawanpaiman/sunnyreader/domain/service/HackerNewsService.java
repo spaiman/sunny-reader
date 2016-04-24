@@ -97,7 +97,6 @@ public class HackerNewsService implements IHackerNewsService {
                     @Override
                     public void call(Comment comment) {
                         if (comment != null) {
-                            comment.setDepth(depth);
                             mHackerNewsPersistent.saveComment(comment);
                         }
                     }
@@ -108,6 +107,7 @@ public class HackerNewsService implements IHackerNewsService {
                     public Observable<Comment> call(Comment comment) {
                         List<Long> commentReplyIds = comment != null ?
                                 comment.getCommentIds() : new ArrayList<Long>();
+                        if (comment != null) comment.setDepth(depth);
                         if (commentReplyIds.size() > 0) {
                             return Observable.concat(Observable.just(comment),
                                     getComments(commentReplyIds, depth + 1));
