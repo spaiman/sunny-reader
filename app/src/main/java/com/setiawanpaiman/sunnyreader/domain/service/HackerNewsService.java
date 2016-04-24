@@ -10,6 +10,7 @@ import com.setiawanpaiman.sunnyreader.domain.persistent.HackerNewsPersistent;
 
 import rx.Observable;
 import rx.functions.Action1;
+import rx.functions.Func0;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
@@ -52,6 +53,12 @@ public class HackerNewsService implements IHackerNewsService {
                                 })
                                 .onErrorResumeNext(mHackerNewsPersistent.getStory(storyId));
                     }
+                })
+                .filter(new Func1<Story, Boolean>() {
+                    @Override
+                    public Boolean call(Story story) {
+                        return story != null;
+                    }
                 });
     }
 
@@ -90,7 +97,6 @@ public class HackerNewsService implements IHackerNewsService {
                     @Override
                     public void call(Comment comment) {
                         if (comment != null) {
-                            comment.setDepth(depth);
                             mHackerNewsPersistent.saveComment(comment);
                         }
                     }
@@ -101,6 +107,7 @@ public class HackerNewsService implements IHackerNewsService {
                     public Observable<Comment> call(Comment comment) {
                         List<Long> commentReplyIds = comment != null ?
                                 comment.getCommentIds() : new ArrayList<Long>();
+                        if (comment != null) comment.setDepth(depth);
                         if (commentReplyIds.size() > 0) {
                             return Observable.concat(Observable.just(comment),
                                     getComments(commentReplyIds, depth + 1));
@@ -112,18 +119,23 @@ public class HackerNewsService implements IHackerNewsService {
     }
 
     private Observable<List<Long>> retrieveTopStoriesId(final int start, final int count) {
-        return mHackerNewsApi.getTopStories()
-                .doOnNext(new Action1<List<Long>>() {
-                    @Override
-                    public void call(List<Long> topStoriesId) {
-                        mHackerNewsPersistent.saveTopStories(topStoriesId);
-                    }
-                }).flatMap(new Func1<List<Long>, Observable<List<Long>>>() {
-                    @Override
-                    public Observable<List<Long>> call(List<Long> longs) {
-                        return mHackerNewsPersistent.getTopStories(start, count);
-                    }
-                });
+        return Observable.defer(new Func0<Observable<List<Long>>>() {
+            @Override
+            public Observable<List<Long>> call() {
+                return mHackerNewsApi.getTopStories()
+                        .doOnNext(new Action1<List<Long>>() {
+                            @Override
+                            public void call(List<Long> topStoriesId) {
+                                mHackerNewsPersistent.saveTopStories(topStoriesId);
+                            }
+                        }).flatMap(new Func1<List<Long>, Observable<List<Long>>>() {
+                            @Override
+                            public Observable<List<Long>> call(List<Long> longs) {
+                                return mHackerNewsPersistent.getTopStories(start, count);
+                            }
+                        });
+            }
+        });
     }
 
     private Observable<List<Long>> getTopStoriesId(int page) {
