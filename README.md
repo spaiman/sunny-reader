@@ -1,1 +1,1 @@
-# sunny-reader
+# Sunny Reader for Hacker News [![Build Status](https://travis-ci.org/setiawanp/sunny-reader.svg?branch=master)](https://travis-ci.org/setiawanp/sunny-reader) [![Coverage Status](https://coveralls.io/repos/github/setiawanp/sunny-reader/badge.svg?branch=master)](https://coveralls.io/github/setiawanp/sunny-reader?branch=feature%2Fcoveralls)
