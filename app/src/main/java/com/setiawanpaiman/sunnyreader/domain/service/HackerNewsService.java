@@ -52,6 +52,12 @@ public class HackerNewsService implements IHackerNewsService {
                                 })
                                 .onErrorResumeNext(mHackerNewsPersistent.getStory(storyId));
                     }
+                })
+                .filter(new Func1<Story, Boolean>() {
+                    @Override
+                    public Boolean call(Story story) {
+                        return story != null;
+                    }
                 });
     }
 
