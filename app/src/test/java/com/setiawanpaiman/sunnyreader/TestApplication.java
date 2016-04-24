@@ -16,7 +16,7 @@ public class TestApplication extends Application {
         super.onCreate();
         FlowManager.init(this);
         mApplicationComponent = DaggerMockApplicationComponent.builder()
-                .mockApplicationModule(new MockApplicationModule())
+                .mockApplicationModule(new MockApplicationModule(this))
                 .build();
     }
 

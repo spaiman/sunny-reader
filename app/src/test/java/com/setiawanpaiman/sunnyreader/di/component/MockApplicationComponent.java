@@ -1,5 +1,7 @@
 package com.setiawanpaiman.sunnyreader.di.component;
 
+import android.content.SharedPreferences;
+
 import com.google.gson.Gson;
 
 import com.setiawanpaiman.sunnyreader.di.module.MockApplicationModule;
@@ -13,4 +15,5 @@ import dagger.Component;
 public interface MockApplicationComponent extends ApplicationComponent {
 
     Gson providesGson();
+    SharedPreferences providesSharedPreferences();
 }
