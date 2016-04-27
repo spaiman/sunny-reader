@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Sunny Reader for Hacker News</string>
+    <string name="points_format">+%1d</string>
 </resources>
