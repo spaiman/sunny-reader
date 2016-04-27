@@ -21,7 +21,7 @@ import com.setiawanpaiman.sunnyreader.util.AndroidUtils;
 
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity
+public class TopStoriesActivity extends BaseActivity
         implements TopStoriesContract.View,
                    SwipeRefreshLayout.OnRefreshListener,
                    EndlessRecyclerView.OnLoadMoreListener,
@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_top_stories);
         ButterKnife.bind(this);
 
         mPresenter = new TopStoriesPresenter(
