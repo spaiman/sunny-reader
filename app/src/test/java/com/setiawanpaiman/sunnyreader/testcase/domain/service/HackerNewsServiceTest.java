@@ -94,7 +94,7 @@ public class HackerNewsServiceTest extends BaseTest {
         mHackerNewsService.getTopStories().subscribe(testSubscriber);
         verify(mHackerNewsApi, times(1)).getTopStories();
         verify(mHackerNewsPersistent, times(1)).saveTopStories(anyList());
-        verify(mHackerNewsPersistent, times(1)).getTopStories(0, Constants.PER_PAGE);
+        verify(mHackerNewsPersistent, times(2)).getTopStories(0, Constants.PER_PAGE);
         verify(mHackerNewsApi, times(4)).getStory(anyLong());
         verify(mHackerNewsPersistent, times(4)).saveStory(any(Story.class));
         testSubscriber.assertNoErrors();
@@ -137,7 +137,7 @@ public class HackerNewsServiceTest extends BaseTest {
         mHackerNewsService.getTopStories(2).subscribe(testSubscriber);
         verify(mHackerNewsApi, times(1)).getTopStories();
         verify(mHackerNewsPersistent, times(1)).saveTopStories(anyList());
-        verify(mHackerNewsPersistent, times(2)).getTopStories(10, Constants.PER_PAGE);
+        verify(mHackerNewsPersistent, times(3)).getTopStories(10, Constants.PER_PAGE);
         verify(mHackerNewsApi, times(3)).getStory(anyLong());
         verify(mHackerNewsPersistent, times(3)).saveStory(any(Story.class));
         testSubscriber.assertNoErrors();
@@ -162,7 +162,7 @@ public class HackerNewsServiceTest extends BaseTest {
         mHackerNewsService.getTopStories(1).observeOn(AndroidSchedulers.mainThread(), true).subscribe(testSubscriber);
         verify(mHackerNewsApi, times(1)).getTopStories();
         verify(mHackerNewsPersistent, times(1)).saveTopStories(anyList());
-        verify(mHackerNewsPersistent, times(1)).getTopStories(0, Constants.PER_PAGE);
+        verify(mHackerNewsPersistent, times(2)).getTopStories(0, Constants.PER_PAGE);
         verify(mHackerNewsApi, times(3)).getStory(anyLong());
         verify(mHackerNewsPersistent, times(3)).getStory(anyLong());
         verify(mHackerNewsPersistent, times(1)).saveStory(any(Story.class));
@@ -184,7 +184,7 @@ public class HackerNewsServiceTest extends BaseTest {
         mHackerNewsService.getTopStories(1).observeOn(AndroidSchedulers.mainThread(), true).subscribe(testSubscriber);
         verify(mHackerNewsApi, times(1)).getTopStories();
         verify(mHackerNewsPersistent, times(1)).saveTopStories(anyList());
-        verify(mHackerNewsPersistent, times(1)).getTopStories(0, Constants.PER_PAGE);
+        verify(mHackerNewsPersistent, times(2)).getTopStories(0, Constants.PER_PAGE);
         verify(mHackerNewsApi, times(3)).getStory(anyLong());
         verify(mHackerNewsPersistent, times(3)).getStory(anyLong());
         verify(mHackerNewsPersistent, times(2)).saveStory(any(Story.class));
