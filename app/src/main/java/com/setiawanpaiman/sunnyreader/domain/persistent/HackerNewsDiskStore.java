@@ -29,21 +29,26 @@ public class HackerNewsDiskStore implements HackerNewsPersistent {
     }
 
     @Override
-    public Observable<List<Long>> getTopStories(int start, int limit) {
-        String[] ids = TextUtils.split(
-                mSharedPreferences.getString(KEY_TOP_STORIES_ID, ""), ID_DELIMITER);
-        List<Long> longIds = new ArrayList<>();
-        int lBound = Math.min(ids.length, start);
-        int uBound = Math.min(ids.length, lBound + limit);
-        for (int i = lBound; i < uBound; i++) {
-            try {
-                long longId = Long.parseLong(ids[i]);
-                longIds.add(longId);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
+    public Observable<List<Long>> getTopStories(final int start, final int limit) {
+        return Observable.defer(new Func0<Observable<List<Long>>>() {
+            @Override
+            public Observable<List<Long>> call() {
+                String[] ids = TextUtils.split(
+                        mSharedPreferences.getString(KEY_TOP_STORIES_ID, ""), ID_DELIMITER);
+                List<Long> longIds = new ArrayList<>();
+                int lBound = Math.min(ids.length, start);
+                int uBound = Math.min(ids.length, lBound + limit);
+                for (int i = lBound; i < uBound; i++) {
+                    try {
+                        long longId = Long.parseLong(ids[i]);
+                        longIds.add(longId);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return Observable.just(longIds);
             }
-        }
-        return Observable.just(longIds);
+        });
     }
 
     @Override
