@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Sunny Reader for Hacker News</string>
+    <string name="retry">Retry</string>
+    <string name="error_no_internet_connection">No internet connection</string>
     <string name="points_format">+%1d</string>
 </resources>
