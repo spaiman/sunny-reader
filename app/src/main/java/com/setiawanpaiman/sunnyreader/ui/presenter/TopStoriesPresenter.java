@@ -1,29 +1,32 @@
-package com.setiawanpaiman.sunnyreader.ui.topstories;
+package com.setiawanpaiman.sunnyreader.ui.presenter;
 
 import com.setiawanpaiman.sunnyreader.Constants;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 import com.setiawanpaiman.sunnyreader.util.RxUtils;
 
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
-import rx.schedulers.Schedulers;
 
 public class TopStoriesPresenter implements TopStoriesContract.Presenter {
 
     private IHackerNewsService mHackerNewsService;
     private TopStoriesContract.View mView;
+    private Scheduler mScheduler;
 
     private Subscription mSubscription;
     private boolean mLoadMoreTriggered;
     private int mCurrentPage = Constants.FIRST_PAGE;
 
     public TopStoriesPresenter(IHackerNewsService hackerNewsService,
-                               TopStoriesContract.View view) {
+                               TopStoriesContract.View view,
+                               Scheduler scheduler) {
         mHackerNewsService = hackerNewsService;
         mView = view;
+        mScheduler = scheduler;
     }
 
     @Override
@@ -62,7 +65,7 @@ public class TopStoriesPresenter implements TopStoriesContract.Presenter {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread(), true)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(mScheduler)
                 .subscribe(new Subscriber<Story>() {
                     boolean firstOnNext = true;
 

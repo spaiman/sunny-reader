@@ -14,10 +14,12 @@ import butterknife.ButterKnife;
 import com.setiawanpaiman.sunnyreader.R;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.ui.adapter.StoryAdapter;
-import com.setiawanpaiman.sunnyreader.ui.topstories.TopStoriesContract;
-import com.setiawanpaiman.sunnyreader.ui.topstories.TopStoriesPresenter;
+import com.setiawanpaiman.sunnyreader.ui.presenter.TopStoriesContract;
+import com.setiawanpaiman.sunnyreader.ui.presenter.TopStoriesPresenter;
 import com.setiawanpaiman.sunnyreader.ui.widget.EndlessRecyclerView;
 import com.setiawanpaiman.sunnyreader.util.AndroidUtils;
+
+import rx.schedulers.Schedulers;
 
 import java.util.ArrayList;
 
@@ -55,7 +57,7 @@ public class TopStoriesActivity extends BaseActivity
         ButterKnife.bind(this);
 
         mPresenter = new TopStoriesPresenter(
-                getApplicationComponent().provideHackerNewsService(), this);
+                getApplicationComponent().provideHackerNewsService(), this, Schedulers.io());
 
         initViews();
         if (savedInstanceState == null) {

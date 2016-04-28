@@ -1,4 +1,4 @@
-package com.setiawanpaiman.sunnyreader.ui.topstories;
+package com.setiawanpaiman.sunnyreader.ui.presenter;
 
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 
