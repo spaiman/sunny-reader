@@ -28,11 +28,21 @@ jacocoAndroidUnitTestReport {
     csv.enabled false
     html.enabled true
     xml.enabled true
+
+    excludes += [
+            'com/setiawanpaiman/sunnyreader/di/module/**',
+            'com/setiawanpaiman/sunnyreader/domain/api/**',
+            'com/raizlabs/**',
+            '**/*_Adapter*.*',
+            '**/*_Table*.*',
+            '**/*_Database*.*',
+            '**/*$ViewBinder*.*',
+    ]
+
 }
 
 coveralls {
-    jacocoReportPath =
-            "${buildDir}/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml"
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml"
 }
 
 tasks.coveralls {
