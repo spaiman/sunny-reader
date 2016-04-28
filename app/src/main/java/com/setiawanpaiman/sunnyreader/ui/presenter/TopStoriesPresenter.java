@@ -76,6 +76,8 @@ public class TopStoriesPresenter implements TopStoriesContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        // reset current page if error occurred
+                        if (!refresh) mCurrentPage--;
                         mView.setProgressVisibility(false, refresh);
                     }
 
