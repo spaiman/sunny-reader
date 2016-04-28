@@ -6,9 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 public final class AndroidUtils {
 
-    private AndroidUtils() {
-    }
-
     public static boolean isNetworkAvailable(Context context) {
         return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE))
                 .getActiveNetworkInfo() != null;
