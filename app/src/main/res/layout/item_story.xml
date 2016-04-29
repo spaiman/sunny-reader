@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_item"
+                android:clickable="true"
+                android:paddingBottom="@dimen/spacing_small"
+                android:paddingLeft="@dimen/spacing_normal"
+                android:paddingRight="@dimen/spacing_normal"
+                android:paddingTop="@dimen/spacing_small"
+    >
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/spacing_micro"
+        android:layout_toLeftOf="@+id/btn_open"
+        android:textColor="@color/soft_black"
+        android:textSize="@dimen/font_large"
+        tools:text="Leaked Postmates financials suggest company might be doing better than thought"
+        />
+
+    <TextView
+        android:id="@+id/txt_total_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_title"
+        android:layout_marginBottom="@dimen/spacing_micro"
+        tools:text="+95"
+        />
+
+    <TextView
+        android:id="@+id/txt_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_title"
+        android:layout_toRightOf="@+id/txt_total_points"
+        android:layout_marginLeft="@dimen/spacing_small"
+        tools:text="johnskeet"
+        />
+
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_title"
+        android:layout_toRightOf="@+id/txt_author"
+        android:layout_marginLeft="@dimen/spacing_small"
+        tools:text="2 hours"
+        />
+
+    <TextView
+        android:id="@+id/txt_total_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_total_points"
+        tools:text="100 comments"
+        />
+
+    <TextView
+        android:id="@+id/txt_host_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txt_total_points"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_toRightOf="@+id/txt_total_comments"
+        android:gravity="right"
+        tools:text="github.com"
+        />
+
+    <ImageView
+        android:id="@+id/btn_open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/bg_button"
+        android:clickable="true"
+        android:padding="@dimen/spacing_small"
+        android:src="@drawable/ic_public"
+        />
+
+</RelativeLayout>

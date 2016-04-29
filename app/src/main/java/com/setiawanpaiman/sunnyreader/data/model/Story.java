@@ -1,5 +1,7 @@
 package com.setiawanpaiman.sunnyreader.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Story {
+public class Story implements Parcelable {
 
     @SerializedName("id")
     private long mId;
@@ -30,6 +32,18 @@ public class Story {
     @SerializedName("kids")
     private List<Long> mCommentIds;
 
+    public static final Parcelable.Creator<Story> CREATOR = new Parcelable.Creator<Story>() {
+        @Override
+        public Story createFromParcel(Parcel source) {
+            return new Story(source);
+        }
+
+        @Override
+        public Story[] newArray(int size) {
+            return new Story[size];
+        }
+    };
+
     protected Story(Builder builder) {
         mId = builder.mId;
         mTimestamp = builder.mTimestamp;
@@ -38,6 +52,31 @@ public class Story {
         mUrl = builder.mUrl;
         mScore = builder.mScore;
         mCommentIds = builder.mCommentIds;
+    }
+
+    protected Story(Parcel in) {
+        this.mId = in.readLong();
+        this.mTimestamp = in.readLong();
+        this.mAuthor = in.readString();
+        this.mTitle = in.readString();
+        this.mUrl = in.readString();
+        this.mScore = in.readLong();
+        this.mCommentIds = new ArrayList<>();
+        in.readList(this.mCommentIds, Long.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.mId);
+        dest.writeLong(this.mTimestamp);
+        dest.writeString(this.mAuthor);
+        dest.writeString(this.mTitle);
+        dest.writeString(this.mUrl);
+        dest.writeLong(this.mScore);
+        dest.writeList(this.mCommentIds);
     }
 
     public long getId() {
@@ -69,6 +108,11 @@ public class Story {
         // defensive copy
         if (mCommentIds == null) return new ArrayList<>();
         else return new ArrayList<>(mCommentIds);
+    }
+
+    public int getTotalComments() {
+        if (mCommentIds == null) return 0;
+        else return mCommentIds.size();
     }
 
     public static Builder newBuilder(long id) {

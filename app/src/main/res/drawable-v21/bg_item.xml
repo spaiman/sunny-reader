@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/light_gray">
+    <item android:state_pressed="true">
+        <layer-list>
+            <item android:left="@dimen/non_stroke_offset"
+                  android:right="@dimen/non_stroke_offset"
+                  android:top="@dimen/non_stroke_offset">
+                <shape android:shape="rectangle">
+                    <stroke android:width="@dimen/line_height" android:color="@color/silver" />
+                </shape>
+            </item>
+            <item android:left="@dimen/non_stroke_offset"
+                  android:right="@dimen/non_stroke_offset"
+                  android:top="@dimen/non_stroke_offset">
+                <ripple android:color="@color/light_gray" />
+            </item>
+        </layer-list>
+    </item>
+    <item android:state_pressed="false">
+        <layer-list>
+            <item android:left="@dimen/non_stroke_offset"
+                  android:right="@dimen/non_stroke_offset"
+                  android:top="@dimen/non_stroke_offset">
+                <shape android:shape="rectangle">
+                    <stroke android:width="@dimen/line_height" android:color="@color/silver" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</ripple>

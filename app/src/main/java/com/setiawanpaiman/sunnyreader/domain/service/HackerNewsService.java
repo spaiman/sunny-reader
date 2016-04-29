@@ -123,17 +123,14 @@ public class HackerNewsService implements IHackerNewsService {
             @Override
             public Observable<List<Long>> call() {
                 return mHackerNewsApi.getTopStories()
-                        .doOnNext(new Action1<List<Long>>() {
-                            @Override
-                            public void call(List<Long> topStoriesId) {
-                                mHackerNewsPersistent.saveTopStories(topStoriesId);
-                            }
-                        }).flatMap(new Func1<List<Long>, Observable<List<Long>>>() {
+                        .flatMap(new Func1<List<Long>, Observable<List<Long>>>() {
                             @Override
                             public Observable<List<Long>> call(List<Long> longs) {
+                                mHackerNewsPersistent.saveTopStories(longs);
                                 return mHackerNewsPersistent.getTopStories(start, count);
                             }
-                        });
+                        })
+                        .onErrorResumeNext(mHackerNewsPersistent.getTopStories(start, count));
             }
         });
     }
