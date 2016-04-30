@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.setiawanpaiman.sunnyreader.R;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
@@ -12,6 +15,7 @@ import com.setiawanpaiman.sunnyreader.ui.adapter.EndlessListAdapter;
 import com.setiawanpaiman.sunnyreader.ui.adapter.StoryAdapter;
 import com.setiawanpaiman.sunnyreader.ui.presenter.EndlessListContract;
 import com.setiawanpaiman.sunnyreader.ui.presenter.TopStoriesPresenter;
+import com.setiawanpaiman.sunnyreader.ui.widget.DividerItemDecoration;
 
 import rx.schedulers.Schedulers;
 
@@ -35,6 +39,15 @@ public class TopStoriesFragment extends EndlessListFragment<Story>
         if (context instanceof OnInteractionListener) {
             mOnInteractionListener = (OnInteractionListener) context;
         }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+        return view;
     }
 
     @Override
