@@ -1,8 +1,12 @@
 package com.setiawanpaiman.sunnyreader.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
+import com.setiawanpaiman.sunnyreader.R;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.ui.adapter.EndlessListAdapter;
 import com.setiawanpaiman.sunnyreader.ui.adapter.StoryAdapter;
@@ -14,11 +18,27 @@ import rx.schedulers.Schedulers;
 public class TopStoriesFragment extends EndlessListFragment<Story>
         implements StoryAdapter.OnClickListener {
 
+    private OnInteractionListener mOnInteractionListener;
+
     public static TopStoriesFragment newInstance() {
         return new TopStoriesFragment();
     }
 
     public TopStoriesFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnInteractionListener) {
+            mOnInteractionListener = (OnInteractionListener) context;
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setTitle(R.string.app_name);
     }
 
     @Override
@@ -36,7 +56,9 @@ public class TopStoriesFragment extends EndlessListFragment<Story>
 
     @Override
     public void onStoryClicked(Story story) {
-        // TODO: Open detail activity after it has been implemented
+        if (mOnInteractionListener != null) {
+            mOnInteractionListener.onStoryClicked(story);
+        }
     }
 
     @Override
@@ -44,5 +66,10 @@ public class TopStoriesFragment extends EndlessListFragment<Story>
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(story.getUrl()));
         startActivity(intent);
+    }
+
+    public interface OnInteractionListener {
+
+        void onStoryClicked(Story story);
     }
 }
