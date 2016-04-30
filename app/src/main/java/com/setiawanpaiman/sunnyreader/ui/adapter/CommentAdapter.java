@@ -1,8 +1,10 @@
 package com.setiawanpaiman.sunnyreader.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.ViewHolder> {
 
     private static final int ITEM_VIEW_TYPE_HEADER_STORY = -1;
+    private static final int MAX_DP_ELEVATION = 6;
 
     private Story mStory;
 
@@ -35,8 +38,8 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolderItem(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         if (viewType == ITEM_VIEW_TYPE_HEADER_STORY) {
-            final View view = inflater.inflate(R.layout.item_story, parent, false);
-            return new StoryAdapter.ViewHolder(view);
+            final View view = inflater.inflate(R.layout.item_story_detail, parent, false);
+            return new StoryDetailViewHolder(view);
         } else {
             final View view = inflater.inflate(R.layout.item_comment, parent, false);
             return new ViewHolder(view);
@@ -45,8 +48,8 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
 
     @Override
     protected void onBindViewHolderItem(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof StoryAdapter.ViewHolder) {
-            ((StoryAdapter.ViewHolder) holder).bind(mContext, mStory);
+        if (holder instanceof StoryDetailViewHolder) {
+            ((StoryDetailViewHolder) holder).bind(mContext, mStory);
         } else if (holder instanceof ViewHolder) {
             Comment comment = mData.get(position - 1);
             ViewHolder vh = (ViewHolder) holder;
@@ -59,6 +62,8 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
                     (ViewGroup.MarginLayoutParams) vh.itemView.getLayoutParams();
             marginLayoutParams.leftMargin = comment.getDepth() *
                     mContext.getResources().getDimensionPixelSize(R.dimen.spacing_xsmall);
+            vh.cardView.setCardElevation(
+                    AndroidUtils.dpToPx(mContext, MAX_DP_ELEVATION - comment.getDepth()));
         }
     }
 
@@ -106,7 +111,32 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
         return position == mData.size() + 1;
     }
 
+    static class StoryDetailViewHolder extends StoryAdapter.ViewHolder {
+
+        @BindView(R.id.txt_content)
+        TextView txtContent;
+
+        public StoryDetailViewHolder(View itemView) {
+            super(itemView);
+            
+        }
+
+        @Override
+        public void bind(Context context, Story story) {
+            super.bind(context, story);
+            if (!TextUtils.isEmpty(story.getText())) {
+                txtContent.setText(AndroidUtils.trim(Html.fromHtml(story.getText())));
+                txtContent.setVisibility(View.VISIBLE);
+            } else {
+                txtContent.setVisibility(View.GONE);
+            }
+        }
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.card_view)
+        CardView cardView;
 
         @BindView(R.id.txt_author)
         TextView txtAuthor;
