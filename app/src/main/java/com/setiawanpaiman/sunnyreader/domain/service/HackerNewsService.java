@@ -32,15 +32,15 @@ public class HackerNewsService implements IHackerNewsService {
     }
 
     @Override
-    public Observable<List<Story>> getTopStories() {
-        return getTopStories(Constants.FIRST_PAGE);
+    public Observable<List<Story>> getTopStories(int count) {
+        return getTopStories(Constants.FIRST_PAGE, count);
     }
 
     @Override
-    public Observable<List<Story>> getTopStories(int page) {
+    public Observable<List<Story>> getTopStories(int page, int count) {
         Log.i(TAG, "getTopStories " + page);
         final List<Long> topStoriesId = new ArrayList<>();
-        return getTopStoriesId(page)
+        return getTopStoriesId(page, count)
                 /**
                  * concatMap can be used here to maintain the order of Stories, but flatMap was used instead.
                  * This is because: in my personal benchmark result, the performance of concatMap is terrible.
@@ -88,16 +88,16 @@ public class HackerNewsService implements IHackerNewsService {
     }
 
     @Override
-    public Observable<List<Comment>> getComments(@NonNull Story story) {
-        return getComments(story, Constants.FIRST_PAGE);
+    public Observable<List<Comment>> getComments(@NonNull Story story, int count) {
+        return getComments(story, Constants.FIRST_PAGE, count);
     }
 
     @Override
-    public Observable<List<Comment>> getComments(@NonNull Story story, int page) {
+    public Observable<List<Comment>> getComments(@NonNull Story story, int page, int count) {
         Log.i(TAG, "getComments " + page);
         List<Long> subCommentIds = story.getCommentIds();
-        int lBound = Math.min(subCommentIds.size(), (page - 1) * Constants.PER_PAGE);
-        int uBound = Math.min(subCommentIds.size(), lBound + Constants.PER_PAGE);
+        int lBound = Math.min(subCommentIds.size(), (page - 1) * count);
+        int uBound = Math.min(subCommentIds.size(), lBound + count);
         subCommentIds = subCommentIds.subList(lBound, uBound);
         return getComments(subCommentIds, Constants.FIRST_DEPTH);
     }
@@ -198,9 +198,8 @@ public class HackerNewsService implements IHackerNewsService {
         });
     }
 
-    private Observable<List<Long>> getTopStoriesId(int page) {
-        int start = (page - 1) * Constants.PER_PAGE;
-        int count = Constants.PER_PAGE;
+    private Observable<List<Long>> getTopStoriesId(int page, int count) {
+        int start = (page - 1) * count;
         if (page == Constants.FIRST_PAGE) {
             return retrieveTopStoriesId(start, count);
         } else {

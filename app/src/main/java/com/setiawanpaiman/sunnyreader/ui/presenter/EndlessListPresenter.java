@@ -50,7 +50,7 @@ public abstract class EndlessListPresenter<Model> implements EndlessListContract
 
         mCurrentPage = refresh ? Constants.FIRST_PAGE : mCurrentPage + 1;
         mView.setProgressVisibility(true, refresh);
-        mSubscription = createRequestObservable(mCurrentPage)
+        mSubscription = createRequestObservable(mCurrentPage, Constants.PER_PAGE)
                 .doOnUnsubscribe(new Action0() {
                     @Override
                     public void call() {
@@ -94,5 +94,5 @@ public abstract class EndlessListPresenter<Model> implements EndlessListContract
         RxUtils.unsubscribeAll(mSubscription);
     }
 
-    public abstract Observable<Model> createRequestObservable(int page);
+    public abstract Observable<Model> createRequestObservable(int page, int count);
 }

@@ -24,7 +24,7 @@ public class StoryDetailPresenter extends EndlessListPresenter<List<Comment>> {
     }
 
     @Override
-    public Observable<List<Comment>> createRequestObservable(int page) {
-        return mHackerNewsService.getComments(mStory, page);
+    public Observable<List<Comment>> createRequestObservable(int page, int count) {
+        return mHackerNewsService.getComments(mStory, page, count);
     }
 }

@@ -20,7 +20,7 @@ public class TopStoriesPresenter extends EndlessListPresenter<List<Story>> {
     }
 
     @Override
-    public Observable<List<Story>> createRequestObservable(int page) {
-        return mHackerNewsService.getTopStories(page);
+    public Observable<List<Story>> createRequestObservable(int page, int count) {
+        return mHackerNewsService.getTopStories(page, count);
     }
 }
