@@ -23,6 +23,9 @@ public class Story implements Parcelable {
     @SerializedName("title")
     private String mTitle;
 
+    @SerializedName("text")
+    private String mText;
+
     @SerializedName("url")
     private String mUrl;
 
@@ -49,6 +52,7 @@ public class Story implements Parcelable {
         mTimestamp = builder.mTimestamp;
         mAuthor = builder.mAuthor;
         mTitle = builder.mTitle;
+        mText = builder.mText;
         mUrl = builder.mUrl;
         mScore = builder.mScore;
         mCommentIds = builder.mCommentIds;
@@ -59,6 +63,7 @@ public class Story implements Parcelable {
         this.mTimestamp = in.readLong();
         this.mAuthor = in.readString();
         this.mTitle = in.readString();
+        this.mText = in.readString();
         this.mUrl = in.readString();
         this.mScore = in.readLong();
         this.mCommentIds = new ArrayList<>();
@@ -74,6 +79,7 @@ public class Story implements Parcelable {
         dest.writeLong(this.mTimestamp);
         dest.writeString(this.mAuthor);
         dest.writeString(this.mTitle);
+        dest.writeString(this.mText);
         dest.writeString(this.mUrl);
         dest.writeLong(this.mScore);
         dest.writeList(this.mCommentIds);
@@ -93,6 +99,10 @@ public class Story implements Parcelable {
 
     public String getTitle() {
         return mTitle;
+    }
+
+    public String getText() {
+        return mText;
     }
 
     public String getUrl() {
@@ -124,6 +134,7 @@ public class Story implements Parcelable {
         private long mTimestamp;
         private String mAuthor;
         private String mTitle;
+        private String mText;
         private String mUrl;
         private long mScore;
         private List<Long> mCommentIds;
@@ -145,6 +156,11 @@ public class Story implements Parcelable {
 
         public Builder setTitle(String title) {
             mTitle = title;
+            return this;
+        }
+
+        public Builder setText(String text) {
+            mText = text;
             return this;
         }
 
