@@ -1,5 +1,6 @@
 package com.setiawanpaiman.sunnyreader.testcase.ui.presenter;
 
+import com.setiawanpaiman.sunnyreader.Constants;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 import com.setiawanpaiman.sunnyreader.mockdata.MockStory;
@@ -20,13 +21,15 @@ import rx.Observable;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -42,11 +45,13 @@ public class TopStoriesPresenterTest extends BaseTest {
     IHackerNewsService mHackerNewsService;
 
     @Mock
-    EndlessListContract.View<Story> mView;
+    EndlessListContract.View<List<Story>> mView;
 
     TestScheduler mTestScheduler = new TestScheduler();
 
     TopStoriesPresenter mPresenter;
+
+    List<Story> mMockStories = Arrays.asList(MockStory.STORY1, MockStory.STORY2, MockStory.STORY3);
 
     @Before
     public void setUp() throws Exception {
@@ -91,16 +96,16 @@ public class TopStoriesPresenterTest extends BaseTest {
 
     @Test
     public void testErrorLoadDataRefresh() throws Exception {
-        when(mHackerNewsService.getTopStories(anyInt()))
-                .thenReturn(Observable.<Story> error(new Exception()));
+        when(mHackerNewsService.getTopStories(anyInt(), anyInt()))
+                .thenReturn(Observable.<List<Story>> error(new Exception()));
         mPresenter.loadData(true);
         assertPostErrorLoadData(1, 1, true);
     }
 
     @Test
     public void testErrorLoadDataNotRefresh() throws Exception {
-        when(mHackerNewsService.getTopStories(anyInt()))
-                .thenReturn(Observable.<Story> error(new Exception()));
+        when(mHackerNewsService.getTopStories(anyInt(), anyInt()))
+                .thenReturn(Observable.<List<Story>> error(new Exception()));
         mPresenter.loadData(false);
         assertPostErrorLoadData(1, 2, false);
     }
@@ -125,16 +130,14 @@ public class TopStoriesPresenterTest extends BaseTest {
         assertFalse(inProgress);
 
         assertEquals(2, mPresenter.getCurrentPage());
-        verify(mHackerNewsService, times(1)).getTopStories(1);
-        verify(mHackerNewsService, times(1)).getTopStories(2);
+        verify(mHackerNewsService, times(1)).getTopStories(1, Constants.PER_PAGE);
+        verify(mHackerNewsService, times(1)).getTopStories(2, Constants.PER_PAGE);
         verify(mView, times(1)).setProgressVisibility(true, false);
         verify(mView, times(1)).setProgressVisibility(false, false);
         verify(mView, times(1)).setProgressVisibility(true, true);
         verify(mView, times(1)).setProgressVisibility(false, true);
-        verify(mView, times(1)).showData(MockStory.STORY1, true);
-        verify(mView, times(1)).showData(MockStory.STORY1, false);
-        verify(mView, times(2)).showData(MockStory.STORY2, false);
-        verify(mView, times(2)).showData(MockStory.STORY3, false);
+        verify(mView, times(1)).showData(mMockStories, true);
+        verify(mView, times(1)).showData(mMockStories, false);
     }
 
     @Test
@@ -151,16 +154,15 @@ public class TopStoriesPresenterTest extends BaseTest {
 
         mTestScheduler.advanceTimeBy(2, TimeUnit.SECONDS);
 
-        verify(mHackerNewsService, times(1)).getTopStories(1);
+        verify(mHackerNewsService, times(1)).getTopStories(1, Constants.PER_PAGE);
         verify(mView, times(1)).setProgressVisibility(true, true);
         verify(mView, times(0)).setProgressVisibility(false, true);
-        verify(mView, times(0)).showData(any(Story.class), anyBoolean());
+        verify(mView, times(0)).showData(anyListOf(Story.class), anyBoolean());
     }
 
     private void arrangePreLoadData() {
-        Story[] stories = new Story[] { MockStory.STORY1, MockStory.STORY2, MockStory.STORY3 };
-        when(mHackerNewsService.getTopStories(anyInt()))
-                .thenReturn(Observable.from(stories).delay(2, TimeUnit.SECONDS, mTestScheduler));
+        when(mHackerNewsService.getTopStories(anyInt(), anyInt()))
+                .thenReturn(Observable.just(mMockStories).delay(2, TimeUnit.SECONDS, mTestScheduler));
 
         boolean inProgress = mPresenter.isLoadIsInProgress();
         assertFalse(inProgress);
@@ -176,17 +178,15 @@ public class TopStoriesPresenterTest extends BaseTest {
         assertFalse(inProgress);
 
         assertEquals(expectedPage, mPresenter.getCurrentPage());
-        verify(mHackerNewsService, times(1)).getTopStories(expectedPage);
+        verify(mHackerNewsService, times(1)).getTopStories(expectedPage, Constants.PER_PAGE);
         verify(mView, times(1)).setProgressVisibility(true, refresh);
         verify(mView, times(1)).setProgressVisibility(false, refresh);
-        verify(mView, times(1)).showData(MockStory.STORY1, refresh);
-        verify(mView, times(1)).showData(MockStory.STORY2, false);
-        verify(mView, times(1)).showData(MockStory.STORY3, false);
+        verify(mView, times(1)).showData(mMockStories, refresh);
     }
 
     private void assertPostErrorLoadData(int expectedCurrentPage, int pageLoaded, boolean refresh) {
         assertEquals(expectedCurrentPage, mPresenter.getCurrentPage());
-        verify(mHackerNewsService, times(1)).getTopStories(pageLoaded);
+        verify(mHackerNewsService, times(1)).getTopStories(pageLoaded, Constants.PER_PAGE);
         verify(mView, times(1)).setProgressVisibility(true, refresh);
         verify(mView, times(1)).setProgressVisibility(false, refresh);
     }
