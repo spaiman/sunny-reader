@@ -3,4 +3,5 @@
     <string name="retry">Retry</string>
     <string name="error_no_internet_connection">No internet connection</string>
     <string name="points_format">+%1d</string>
+    <string name="title_story_detail">Comments</string>
 </resources>

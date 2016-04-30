@@ -1,17 +1,15 @@
 package com.setiawanpaiman.sunnyreader.ui.presenter;
 
-import com.setiawanpaiman.sunnyreader.data.model.Story;
+public interface EndlessListContract {
 
-public interface TopStoriesContract {
-
-    interface View {
+    interface View<T> {
 
         void setProgressVisibility(boolean show, boolean refresh);
 
-        void showTopStory(Story story, boolean refresh);
+        void showData(T data, boolean refresh);
     }
 
-    interface Presenter {
+    interface Presenter<T> {
 
         int getCurrentPage();
 
@@ -19,7 +17,7 @@ public interface TopStoriesContract {
 
         boolean isLoadIsInProgress();
 
-        void loadTopStories(boolean refresh);
+        void loadData(boolean refresh);
 
         void onDestroy();
     }

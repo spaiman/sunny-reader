@@ -59,29 +59,14 @@ public class StoryAdapter extends EndlessListAdapter<Story, StoryAdapter.ViewHol
 
     @Override
     protected void onBindViewHolderItem(ViewHolder holder, int position) {
-        Story story = mData.get(position);
-        String host = TextUtils.isEmpty(story.getUrl()) ? "" : Uri.parse(story.getUrl()).getHost();
-
-        holder.txtTitle.setText(story.getTitle());
-        holder.txtTotalPoints.setText(
-                mContext.getString(R.string.points_format, story.getScore()));
-        holder.txtAuthor.setText(story.getAuthor());
-        holder.txtTime.setText(DateUtils.getRelativeTimeSpanString(
-                TimeUnit.SECONDS.toMillis(story.getTimestamp()), System.currentTimeMillis(),
-                DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_SHOW_DATE));
-        holder.txtTotalComments.setText(
-                mContext.getResources()
-                        .getQuantityString(R.plurals.total_comments,
-                                story.getTotalComments(), story.getTotalComments()));
-        holder.txtHostUrl.setText(host);
-        holder.btnOpen.setVisibility(TextUtils.isEmpty(host) ? View.GONE : View.VISIBLE);
+        holder.bind(mContext, mData.get(position));
     }
 
     public void setOnClickListener(OnClickListener onClickListener) {
         mOnClickListener = onClickListener;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.txt_title)
         TextView txtTitle;
@@ -107,6 +92,24 @@ public class StoryAdapter extends EndlessListAdapter<Story, StoryAdapter.ViewHol
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(Context context, Story story) {
+            String host = TextUtils.isEmpty(story.getUrl()) ? "" : Uri.parse(story.getUrl()).getHost();
+
+            txtTitle.setText(story.getTitle());
+            txtTotalPoints.setText(
+                    context.getString(R.string.points_format, story.getScore()));
+            txtAuthor.setText(story.getAuthor());
+            txtTime.setText(DateUtils.getRelativeTimeSpanString(
+                    TimeUnit.SECONDS.toMillis(story.getTimestamp()), System.currentTimeMillis(),
+                    DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_SHOW_DATE));
+            txtTotalComments.setText(
+                    context.getResources()
+                            .getQuantityString(R.plurals.total_comments,
+                                    story.getTotalComments(), story.getTotalComments()));
+            txtHostUrl.setText(host);
+            btnOpen.setVisibility(TextUtils.isEmpty(host) ? View.GONE : View.VISIBLE);
         }
     }
 

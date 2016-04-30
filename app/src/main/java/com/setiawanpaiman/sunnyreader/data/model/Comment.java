@@ -1,5 +1,7 @@
 package com.setiawanpaiman.sunnyreader.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +9,15 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Comment {
+public class Comment implements Parcelable {
+
+    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
+        @Override
+        public Comment createFromParcel(Parcel source) {return new Comment(source);}
+
+        @Override
+        public Comment[] newArray(int size) {return new Comment[size];}
+    };
 
     @SerializedName("id")
     private long mId;
@@ -40,6 +50,33 @@ public class Comment {
         mParentId = builder.mParentId;
         mCommentIds = builder.mCommentIds;
         mDeleted = builder.mDeleted;
+    }
+
+    protected Comment(Parcel in) {
+        this.mId = in.readLong();
+        this.mTimestamp = in.readLong();
+        this.mAuthor = in.readString();
+        this.mText = in.readString();
+        this.mParentId = in.readLong();
+        this.mCommentIds = new ArrayList<Long>();
+        in.readList(this.mCommentIds, Long.class.getClassLoader());
+        this.mDeleted = in.readByte() != 0;
+        this.mDepth = in.readInt();
+    }
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.mId);
+        dest.writeLong(this.mTimestamp);
+        dest.writeString(this.mAuthor);
+        dest.writeString(this.mText);
+        dest.writeLong(this.mParentId);
+        dest.writeList(this.mCommentIds);
+        dest.writeByte(mDeleted ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.mDepth);
     }
 
     public long getId() {

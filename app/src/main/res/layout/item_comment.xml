@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_item"
+                android:paddingRight="@dimen/spacing_normal"
+    >
+
+    <View
+        android:id="@+id/depth_marker"
+        android:layout_width="@dimen/spacing_xsmall"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/txt_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/spacing_small"
+        android:background="@color/colorPrimaryDark"
+        />
+
+    <TextView
+        android:id="@+id/txt_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/txt_time"
+        android:layout_toRightOf="@+id/depth_marker"
+        android:paddingTop="@dimen/spacing_small"
+        tools:text="johnskeet"
+        />
+
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:paddingTop="@dimen/spacing_small"
+        tools:text="2 hours"
+        />
+
+    <TextView
+        android:id="@+id/txt_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_author"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_toRightOf="@+id/depth_marker"
+        android:paddingBottom="@dimen/spacing_small"
+        android:textColor="@color/soft_black"
+        tools:text="Winced less the far dependent more jeeringly regarding goodness other where therefore and upon disconsolate disagreed after opposite wrung flailed until darn readily across vulture the regarding hey dear. Overrode frustrating house the that much discarded goldfinch wow despite python and hired cumulative demonstrable dear and via close and near notably this tortoise said. Far dear seal aesthetically wherever before the following hence after vacuous fumed since against the informal beside that far ouch more much crud that invoked brightly while vigilant nonchalantly. Definite stood outgrew around koala concisely oh on notwithstanding kissed up less much however yikes and mechanically religiously walking some alas changed. Then at undid that hawk redid darn after far some incompetent this far the along ouch wow ouch much hey loose that left this seriously."
+        />
+</RelativeLayout>
