@@ -53,6 +53,7 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = createPresenter();
+        mAdapter = createAdapter();
     }
 
     @Nullable
@@ -64,13 +65,13 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
         ButterKnife.bind(this, view);
         initViews();
         if (savedInstanceState == null) {
-            onRefresh();
+            if (!mAdapter.hasData()) onRefresh();
         } else {
             restoreInstanceState(savedInstanceState);
         }
         return view;
     }
-
+    
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -122,6 +123,10 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
 
     public abstract EndlessListAdapter<Model, ?> createAdapter();
 
+    protected EndlessListAdapter<Model, ?> getAdapter() {
+        return mAdapter;
+    }
+
     private void restoreInstanceState(Bundle savedInstanceState) {
         mPresenter.onRestoreInstanceState(savedInstanceState.getInt(BUNDLE_CURRENT_PAGE));
         ArrayList<Model> data = savedInstanceState.getParcelableArrayList(BUNDLE_DATA);
@@ -129,8 +134,6 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
     }
 
     private void initViews() {
-        mAdapter = createAdapter();
-
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
