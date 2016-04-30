@@ -17,6 +17,7 @@ import com.setiawanpaiman.sunnyreader.data.model.Comment;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.util.AndroidUtils;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.ViewHolder> {
@@ -69,6 +70,18 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
         }
         mData.add(result);
         notifyItemInserted(mData.size());
+    }
+
+    @Override
+    public void addAll(List<Comment> results, boolean refresh) {
+        if (refresh) {
+            mData.clear();
+            notifyDataSetChanged();
+        }
+        int lastSize = mData.size();
+        int newCount = results.size();
+        mData.addAll(results);
+        notifyItemRangeInserted(lastSize + 1, newCount);
     }
 
     @Override

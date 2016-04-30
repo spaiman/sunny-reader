@@ -15,6 +15,8 @@ import com.setiawanpaiman.sunnyreader.util.AndroidUtils;
 
 import rx.schedulers.Schedulers;
 
+import java.util.List;
+
 public class StoryDetailFragment extends EndlessListFragment<Comment> {
 
     private static final String BUNDLE_STORY = "story";
@@ -53,7 +55,7 @@ public class StoryDetailFragment extends EndlessListFragment<Comment> {
     }
 
     @Override
-    public EndlessListContract.Presenter<Comment> createPresenter() {
+    public EndlessListContract.Presenter<List<Comment>> createPresenter() {
         return new StoryDetailPresenter(this, Schedulers.io(),
                 getApplicationComponent().provideHackerNewsService(), mStory);
     }
