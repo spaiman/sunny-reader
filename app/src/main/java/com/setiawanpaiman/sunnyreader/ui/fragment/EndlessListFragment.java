@@ -1,5 +1,6 @@
 package com.setiawanpaiman.sunnyreader.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -19,15 +20,10 @@ import com.setiawanpaiman.sunnyreader.ui.presenter.EndlessListContract;
 import com.setiawanpaiman.sunnyreader.ui.widget.EndlessRecyclerView;
 import com.setiawanpaiman.sunnyreader.util.AndroidUtils;
 
-import java.util.ArrayList;
-
 public abstract class EndlessListFragment<Model extends Parcelable> extends BaseFragment
         implements EndlessListContract.View<Model>,
                    SwipeRefreshLayout.OnRefreshListener,
                    EndlessRecyclerView.OnLoadMoreListener {
-
-    private static final String BUNDLE_CURRENT_PAGE = "current_page";
-    private static final String BUNDLE_DATA = "data";
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefresh;
@@ -50,6 +46,12 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        setRetainInstance(true);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = createPresenter();
@@ -64,19 +66,8 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
         View view = inflater.inflate(R.layout.fragment_endless_list, container, false);
         ButterKnife.bind(this, view);
         initViews();
-        if (savedInstanceState == null) {
-            if (!mAdapter.hasData()) onRefresh();
-        } else {
-            restoreInstanceState(savedInstanceState);
-        }
+        if (!mAdapter.hasData()) onRefresh();
         return view;
-    }
-    
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(BUNDLE_CURRENT_PAGE, mPresenter.getCurrentPage());
-        outState.putParcelableArrayList(BUNDLE_DATA, new ArrayList<>(mAdapter.getAll()));
     }
 
     @Override
@@ -125,12 +116,6 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
 
     protected EndlessListAdapter<Model, ?> getAdapter() {
         return mAdapter;
-    }
-
-    private void restoreInstanceState(Bundle savedInstanceState) {
-        mPresenter.onRestoreInstanceState(savedInstanceState.getInt(BUNDLE_CURRENT_PAGE));
-        ArrayList<Model> data = savedInstanceState.getParcelableArrayList(BUNDLE_DATA);
-        mAdapter.addAll(data, true);
     }
 
     private void initViews() {
