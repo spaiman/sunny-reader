@@ -80,7 +80,7 @@ public abstract class EndlessListAdapter<T, VH extends RecyclerView.ViewHolder>
         int lastSize = mData.size();
         int newCount = results.size();
         mData.addAll(results);
-        notifyItemRangeInserted(lastSize - 1, newCount);
+        notifyItemRangeInserted(lastSize, newCount);
     }
 
     @Override

@@ -15,6 +15,8 @@ import com.setiawanpaiman.sunnyreader.ui.presenter.TopStoriesPresenter;
 
 import rx.schedulers.Schedulers;
 
+import java.util.List;
+
 public class TopStoriesFragment extends EndlessListFragment<Story>
         implements StoryAdapter.OnClickListener {
 
@@ -42,7 +44,7 @@ public class TopStoriesFragment extends EndlessListFragment<Story>
     }
 
     @Override
-    public EndlessListContract.Presenter<Story> createPresenter() {
+    public EndlessListContract.Presenter<List<Story>> createPresenter() {
         return new TopStoriesPresenter(this, Schedulers.io(),
                 getApplicationComponent().provideHackerNewsService());
     }

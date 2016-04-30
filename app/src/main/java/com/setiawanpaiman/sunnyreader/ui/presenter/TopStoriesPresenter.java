@@ -6,11 +6,13 @@ import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 import rx.Observable;
 import rx.Scheduler;
 
-public class TopStoriesPresenter extends EndlessListPresenter<Story> {
+import java.util.List;
+
+public class TopStoriesPresenter extends EndlessListPresenter<List<Story>> {
 
     private IHackerNewsService mHackerNewsService;
 
-    public TopStoriesPresenter(EndlessListContract.View<Story> view,
+    public TopStoriesPresenter(EndlessListContract.View<List<Story>> view,
                                Scheduler scheduler,
                                IHackerNewsService hackerNewsService) {
         super(view, scheduler);
@@ -18,7 +20,7 @@ public class TopStoriesPresenter extends EndlessListPresenter<Story> {
     }
 
     @Override
-    public Observable<Story> createRequestObservable(int page) {
-        return mHackerNewsService.getTopStories(page);
+    public Observable<List<Story>> createRequestObservable(int page, int count) {
+        return mHackerNewsService.getTopStories(page, count);
     }
 }

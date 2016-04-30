@@ -20,8 +20,10 @@ import com.setiawanpaiman.sunnyreader.ui.presenter.EndlessListContract;
 import com.setiawanpaiman.sunnyreader.ui.widget.EndlessRecyclerView;
 import com.setiawanpaiman.sunnyreader.util.AndroidUtils;
 
+import java.util.List;
+
 public abstract class EndlessListFragment<Model extends Parcelable> extends BaseFragment
-        implements EndlessListContract.View<Model>,
+        implements EndlessListContract.View<List<Model>>,
                    SwipeRefreshLayout.OnRefreshListener,
                    EndlessRecyclerView.OnLoadMoreListener {
 
@@ -40,7 +42,7 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
 
     private EndlessListAdapter<Model, ?> mAdapter;
     private boolean mIsLastRequestRefresh;
-    private EndlessListContract.Presenter mPresenter;
+    private EndlessListContract.Presenter<List<Model>> mPresenter;
 
     public EndlessListFragment() {
     }
@@ -94,8 +96,8 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
     }
 
     @Override
-    public void showData(Model data, boolean refresh) {
-        mAdapter.add(data, refresh);
+    public void showData(List<Model> data, boolean refresh) {
+        mAdapter.addAll(data, refresh);
     }
 
     @Override
@@ -110,7 +112,7 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
         mPresenter.loadData(false);
     }
 
-    public abstract EndlessListContract.Presenter<Model> createPresenter();
+    public abstract EndlessListContract.Presenter<List<Model>> createPresenter();
 
     public abstract EndlessListAdapter<Model, ?> createAdapter();
 
