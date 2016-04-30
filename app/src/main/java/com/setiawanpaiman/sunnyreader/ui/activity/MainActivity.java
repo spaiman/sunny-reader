@@ -9,7 +9,7 @@ import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.ui.fragment.StoryDetailFragment;
 import com.setiawanpaiman.sunnyreader.ui.fragment.TopStoriesFragment;
 
-public class TopStoriesActivity extends BaseActivity
+public class MainActivity extends BaseActivity
         implements TopStoriesFragment.OnInteractionListener,
                    FragmentManager.OnBackStackChangedListener {
 
