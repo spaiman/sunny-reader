@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,12 +59,13 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
                     TimeUnit.SECONDS.toMillis(comment.getTimestamp()), System.currentTimeMillis(),
                     DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_SHOW_DATE));
             vh.txtContent.setText(AndroidUtils.trim(Html.fromHtml(comment.getText())));
+            vh.txtContent.setMovementMethod(LinkMovementMethod.getInstance());
+            vh.cardView.setCardElevation(
+                    AndroidUtils.dpToPx(mContext, MAX_DP_ELEVATION - comment.getDepth()));
             ViewGroup.MarginLayoutParams marginLayoutParams =
                     (ViewGroup.MarginLayoutParams) vh.itemView.getLayoutParams();
             marginLayoutParams.leftMargin = comment.getDepth() *
                     mContext.getResources().getDimensionPixelSize(R.dimen.spacing_xsmall);
-            vh.cardView.setCardElevation(
-                    AndroidUtils.dpToPx(mContext, MAX_DP_ELEVATION - comment.getDepth()));
         }
     }
 
@@ -118,7 +120,7 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
 
         public StoryDetailViewHolder(View itemView) {
             super(itemView);
-            
+
         }
 
         @Override
@@ -126,6 +128,7 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
             super.bind(context, story);
             if (!TextUtils.isEmpty(story.getText())) {
                 txtContent.setText(AndroidUtils.trim(Html.fromHtml(story.getText())));
+                txtContent.setMovementMethod(LinkMovementMethod.getInstance());
                 txtContent.setVisibility(View.VISIBLE);
             } else {
                 txtContent.setVisibility(View.GONE);
