@@ -152,7 +152,7 @@ public class HackerNewsService implements IHackerNewsService {
                 });
     }
 
-    private Observable<Comment> getReplies(Comment comment, int depth) {
+    private Observable<Comment> getReplies(final Comment comment, final int depth) {
         List<Long> replyIds = comment != null ? comment.getCommentIds() : new ArrayList<Long>();
         if (comment != null) comment.setDepth(depth);
         if (replyIds.size() > 0) {
@@ -175,8 +175,10 @@ public class HackerNewsService implements IHackerNewsService {
         for (Long id : commentIds) {
             if (commentsMap.containsKey(id)) {
                 Comment comment = commentsMap.get(id);
+                List<Comment> replies = mapIdsToComments(comment.getCommentIds(), commentsMap);
+                comment.setTotalReplies(replies.size());
                 comments.add(comment);
-                comments.addAll(mapIdsToComments(comment.getCommentIds(), commentsMap));
+                comments.addAll(replies);
             }
         }
         return comments;
