@@ -114,7 +114,8 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
                 addedCount++;
             }
         }
-        if (addedCount > 0) notifyItemRangeInserted(oldSize + 1, addedCount);
+
+        notifyItemRangeInserted(oldSize + 1, addedCount);
     }
 
     private boolean isExpanded(int adapterPos) {
@@ -192,8 +193,8 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
     }
 
     @Override
-    protected boolean isFooter(int position) {
-        return position == mData.size() + 1;
+    public int getFooterPosition() {
+        return super.getFooterPosition() + 1;
     }
 
     static class StoryDetailViewHolder extends StoryAdapter.ViewHolder {
