@@ -33,6 +33,7 @@ public class CommentTest extends BaseTest {
                 .setText("text comment")
                 .setTimestamp(120398123L)
                 .build();
+        mComment.setTotalReplies(4);
         mComment.setDepth(3);
     }
 
@@ -46,6 +47,7 @@ public class CommentTest extends BaseTest {
         Assert.assertEquals("text comment", mComment.getText());
         Assert.assertEquals(120398123L, mComment.getTimestamp());
         Assert.assertEquals(3, mComment.getDepth());
+        Assert.assertEquals(4, mComment.getTotalReplies());
         assertEquals(0, mComment.describeContents());
     }
 
@@ -64,6 +66,7 @@ public class CommentTest extends BaseTest {
         assertEquals(mComment.getCommentIds(), parceledComment.getCommentIds());
         assertEquals(mComment.isDeleted(), parceledComment.isDeleted());
         assertEquals(mComment.getDepth(), parceledComment.getDepth());
+        assertEquals(mComment.getTotalReplies(), parceledComment.getTotalReplies());
 
         Comment[] arrays = Comment.CREATOR.newArray(10);
         assertEquals(10, arrays.length);
@@ -79,6 +82,7 @@ public class CommentTest extends BaseTest {
                 .setText("text comment")
                 .setTimestamp(120398123L)
                 .build();
+        comment.setTotalReplies(2);
         comment.setDepth(3);
         Parcel parcel = Parcel.obtain();
         comment.writeToParcel(parcel, 0);
@@ -93,6 +97,7 @@ public class CommentTest extends BaseTest {
         assertEquals(comment.getCommentIds(), parceledComment.getCommentIds());
         assertEquals(comment.isDeleted(), parceledComment.isDeleted());
         assertEquals(comment.getDepth(), parceledComment.getDepth());
+        assertEquals(comment.getTotalReplies(), parceledComment.getTotalReplies());
     }
 
     @Test
