@@ -7,9 +7,11 @@
     >
 
     <RelativeLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_item"
+        android:clickable="true"
         android:paddingRight="@dimen/spacing_normal"
         >
 
@@ -27,10 +29,21 @@
             android:id="@+id/txt_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/txt_time"
             android:layout_toRightOf="@+id/depth_marker"
             android:paddingTop="@dimen/spacing_small"
             tools:text="johnskeet"
+            />
+
+        <TextView
+            android:id="@+id/txt_total_replies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/txt_time"
+            android:layout_toRightOf="@+id/txt_author"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:paddingTop="@dimen/spacing_small"
+            android:textColor="@color/colorAccent"
+            tools:text="+132 replies"
             />
 
         <TextView
