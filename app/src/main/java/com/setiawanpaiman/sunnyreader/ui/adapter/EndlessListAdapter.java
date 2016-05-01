@@ -62,16 +62,6 @@ public abstract class EndlessListAdapter<T, VH extends RecyclerView.ViewHolder>
     }
 
     @Override
-    public void add(T result, boolean refresh) {
-        if (refresh) {
-            mData.clear();
-            notifyDataSetChanged();
-        }
-        mData.add(result);
-        notifyItemInserted(mData.size() - 1);
-    }
-
-    @Override
     public void addAll(List<T> results, boolean refresh) {
         if (refresh) {
             mData.clear();

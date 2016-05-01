@@ -8,8 +8,6 @@ public interface ListAdapter<T> {
 
     List<T> getAll();
 
-    void add(T result, boolean refresh);
-
     void addAll(List<T> results, boolean refresh);
 
     void clear();

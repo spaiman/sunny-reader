@@ -70,20 +70,9 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
     }
 
     @Override
-    public void add(Comment result, boolean refresh) {
-        if (refresh) {
-            mData.clear();
-            notifyDataSetChanged();
-        }
-        mData.add(result);
-        notifyItemInserted(mData.size());
-    }
-
-    @Override
     public void addAll(List<Comment> results, boolean refresh) {
         if (refresh) {
-            mData.clear();
-            notifyDataSetChanged();
+            clear();
         }
         int lastSize = mData.size();
         int newCount = results.size();
