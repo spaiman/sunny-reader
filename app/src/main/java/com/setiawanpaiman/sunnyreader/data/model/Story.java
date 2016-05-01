@@ -35,6 +35,9 @@ public class Story implements Parcelable {
     @SerializedName("kids")
     private List<Long> mCommentIds;
 
+    @SerializedName("descendants")
+    private int mTotalComments;
+
     public static final Parcelable.Creator<Story> CREATOR = new Parcelable.Creator<Story>() {
         @Override
         public Story createFromParcel(Parcel source) {
@@ -56,6 +59,7 @@ public class Story implements Parcelable {
         mUrl = builder.mUrl;
         mScore = builder.mScore;
         mCommentIds = builder.mCommentIds;
+        mTotalComments = builder.mTotalComments;
     }
 
     protected Story(Parcel in) {
@@ -68,6 +72,7 @@ public class Story implements Parcelable {
         this.mScore = in.readLong();
         this.mCommentIds = new ArrayList<>();
         in.readList(this.mCommentIds, Long.class.getClassLoader());
+        this.mTotalComments = in.readInt();
     }
 
     @Override
@@ -83,6 +88,7 @@ public class Story implements Parcelable {
         dest.writeString(this.mUrl);
         dest.writeLong(this.mScore);
         dest.writeList(this.mCommentIds);
+        dest.writeInt(this.mTotalComments);
     }
 
     public long getId() {
@@ -121,8 +127,7 @@ public class Story implements Parcelable {
     }
 
     public int getTotalComments() {
-        if (mCommentIds == null) return 0;
-        else return mCommentIds.size();
+        return mTotalComments;
     }
 
     public static Builder newBuilder(long id) {
@@ -138,6 +143,7 @@ public class Story implements Parcelable {
         private String mUrl;
         private long mScore;
         private List<Long> mCommentIds;
+        private int mTotalComments;
 
         public Builder(long id) {
             mId = id;
@@ -177,6 +183,11 @@ public class Story implements Parcelable {
         public Builder setCommentIds(List<Long> commentIds) {
             mCommentIds.clear();
             if (commentIds != null) mCommentIds.addAll(commentIds);
+            return this;
+        }
+
+        public Builder setTotalComments(int totalComments) {
+            mTotalComments = totalComments;
             return this;
         }
 

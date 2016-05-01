@@ -30,6 +30,7 @@ public class StoryTest extends BaseTest {
                 .setTimestamp(10293819023L)
                 .setTitle("title")
                 .setUrl("url")
+                .setTotalComments(3)
                 .build();
 
     }
@@ -73,7 +74,6 @@ public class StoryTest extends BaseTest {
                 .setCommentIds(null)
                 .build();
         assertEquals(new ArrayList<>(), story.getCommentIds());
-        assertEquals(0, story.getTotalComments());
     }
 
     @Test
@@ -85,6 +85,5 @@ public class StoryTest extends BaseTest {
         field.set(mStory, null);
 
         assertEquals(new ArrayList<>(), mStory.getCommentIds());
-        assertEquals(0, mStory.getTotalComments());
     }
 }
