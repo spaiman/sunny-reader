@@ -1,4 +1,4 @@
-package com.setiawanpaiman.sunnyreader.testcase;
+package com.setiawanpaiman.sunnyreader.testcase.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import com.setiawanpaiman.sunnyreader.R;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 import com.setiawanpaiman.sunnyreader.mockdata.MockAndroidStory;
+import com.setiawanpaiman.sunnyreader.testcase.BaseAndroidTest;
 import com.setiawanpaiman.sunnyreader.ui.activity.MainActivity;
 import com.setiawanpaiman.sunnyreader.util.ViewActionUtils;
 import com.setiawanpaiman.sunnyreader.util.ViewAssertionUtils;

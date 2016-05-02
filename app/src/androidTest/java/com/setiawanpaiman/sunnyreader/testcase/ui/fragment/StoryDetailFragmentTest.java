@@ -1,8 +1,9 @@
-package com.setiawanpaiman.sunnyreader.testcase;
+package com.setiawanpaiman.sunnyreader.testcase.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -13,6 +14,7 @@ import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 import com.setiawanpaiman.sunnyreader.mockdata.MockAndroidComment;
 import com.setiawanpaiman.sunnyreader.mockdata.MockAndroidStory;
+import com.setiawanpaiman.sunnyreader.testcase.BaseAndroidTest;
 import com.setiawanpaiman.sunnyreader.ui.activity.MainActivity;
 import com.setiawanpaiman.sunnyreader.util.ViewActionUtils;
 import com.setiawanpaiman.sunnyreader.util.ViewAssertionUtils;
@@ -36,6 +38,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.setiawanpaiman.sunnyreader.util.MatcherUtils.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 import static org.mockito.Matchers.any;
@@ -188,6 +191,32 @@ public class StoryDetailFragmentTest extends BaseAndroidTest {
         ViewActionUtils.clickComment(1);
         onView(withRecyclerView(R.id.recycler_view).atPositionOnView(2, R.id.txt_content))
                 .check(doesNotExist());
+    }
+
+    @Test
+    public void backPressShouldWorkCorrectly() throws Exception {
+        launchActivityAndMoveToStoryDetail();
+        ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.title_story_detail));
+
+        Espresso.pressBack();
+
+        ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.app_name));
+        for (int i = 1; i <= 10; i++) {
+            ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, true);
+        }
+    }
+
+    @Test
+    public void pressUpButtonShouldWorkCorrectly() throws Exception {
+        launchActivityAndMoveToStoryDetail();
+        ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.title_story_detail));
+
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+
+        ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.app_name));
+        for (int i = 1; i <= 10; i++) {
+            ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, true);
+        }
     }
 
     private void launchActivityAndMoveToStoryDetail() {
