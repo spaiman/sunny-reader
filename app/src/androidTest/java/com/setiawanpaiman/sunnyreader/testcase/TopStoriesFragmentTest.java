@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.Toolbar;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.text.format.DateUtils;
 
 import com.setiawanpaiman.sunnyreader.Constants;
 import com.setiawanpaiman.sunnyreader.R;
@@ -16,6 +14,7 @@ import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 import com.setiawanpaiman.sunnyreader.mockdata.MockAndroidStory;
 import com.setiawanpaiman.sunnyreader.ui.activity.MainActivity;
+import com.setiawanpaiman.sunnyreader.utils.ViewAssertionUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,9 +38,7 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.setiawanpaiman.sunnyreader.utils.MatcherUtils.withRecyclerView;
 import static com.setiawanpaiman.sunnyreader.utils.MatcherUtils.withToolbarTitle;
 import static org.hamcrest.Matchers.allOf;
@@ -91,7 +88,7 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
         onView(isAssignableFrom(Toolbar.class)).check(matches(withToolbarTitle(is(expectedTitle))));
         for (int i = 1; i <= 20; i++) {
             onView(withId(R.id.recycler_view)).perform(scrollToPosition(i - 1));
-            assertStoryViewHolder(i, true);
+            ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, true);
         }
         // scroll to item 21, the item should not be found
         onView(withId(R.id.recycler_view)).perform(scrollToPosition(20));
@@ -120,37 +117,7 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
 
         for (int i = 1; i <= 10; i++) {
             onView(withId(R.id.recycler_view)).perform(scrollToPosition(i - 1));
-            assertStoryViewHolder(i, false);
-        }
-    }
-
-    private void assertStoryViewHolder(int i, boolean hasUrl) {
-        onView(withRecyclerView(R.id.recycler_view).atPositionOnView(i - 1, R.id.txt_title))
-                .check(matches(withText("Title " + i)));
-        onView(withRecyclerView(R.id.recycler_view).atPositionOnView(i - 1, R.id.txt_total_points))
-                .check(matches(withText(mApplicationContext
-                        .getString(R.string.points_format, i))));
-        onView(withRecyclerView(R.id.recycler_view).atPositionOnView(i - 1, R.id.txt_author))
-                .check(matches(withText("Author " + i)));
-        onView(withRecyclerView(R.id.recycler_view).atPositionOnView(i - 1, R.id.txt_time))
-                .check(matches(withText(DateUtils.getRelativeTimeSpanString(
-                        TimeUnit.SECONDS.toMillis(1462133885L - (i * 1000)),
-                        System.currentTimeMillis(),
-                        DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_SHOW_DATE).toString()
-                )));
-        onView(withRecyclerView(R.id.recycler_view).atPositionOnView(i - 1, R.id.txt_total_comments))
-                .check(matches(withText(mApplicationContext
-                        .getResources().getQuantityString(R.plurals.total_comments, i * 10, i * 10))));
-        if (hasUrl) {
-            onView(withRecyclerView(R.id.recycler_view).atPositionOnView(i - 1, R.id.txt_host_url))
-                    .check(matches(withText(String.valueOf("www.domain" + i + ".com"))));
-            onView(withRecyclerView(R.id.recycler_view).atPositionOnView(i - 1, R.id.btn_open))
-                    .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-        } else {
-            onView(withRecyclerView(R.id.recycler_view).atPositionOnView(i - 1, R.id.txt_host_url))
-                    .check(matches(withText("")));
-            onView(withRecyclerView(R.id.recycler_view).atPositionOnView(i - 1, R.id.btn_open))
-                    .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+            ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, false);
         }
     }
 

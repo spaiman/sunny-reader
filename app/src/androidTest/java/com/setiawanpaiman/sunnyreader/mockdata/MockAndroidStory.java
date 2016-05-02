@@ -7,12 +7,13 @@ import java.util.List;
 
 public class MockAndroidStory {
 
-    public static Story create(long id, long timestamp, String author, String title,
+    public static Story create(long id, long timestamp, String author, String title, String text,
                                String url, long score, List<Long> commentIds, int totalComments) {
         return Story.newBuilder(id)
                 .setTimestamp(timestamp)
                 .setAuthor(author)
                 .setTitle(title)
+                .setText(text)
                 .setUrl(url)
                 .setScore(score)
                 .setCommentIds(commentIds)
@@ -22,13 +23,13 @@ public class MockAndroidStory {
 
     public static Story generateMockStory(long id) {
         return create(id, 1462133885L - (id * 1000), "Author " + id, "Title " + id,
-                "http://www.domain" + id + ".com/url", id,
+                "Text " + id, "http://www.domain" + id + ".com/url", id,
                 new ArrayList<Long>(), (int) id * 10);
     }
 
     public static Story generateMockStoryNoUrl(long id) {
         return create(id, 1462133885L - (id * 1000), "Author " + id, "Title " + id,
-                null, id, new ArrayList<Long>(), (int) id * 10);
+                "Text " + id, null, id, new ArrayList<Long>(), (int) id * 10);
     }
 
     public static List<Story> generateMockStories(long start, long count) {
