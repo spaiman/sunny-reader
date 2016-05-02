@@ -64,8 +64,7 @@ public abstract class EndlessListAdapter<T, VH extends RecyclerView.ViewHolder>
     @Override
     public void addAll(List<T> results, boolean refresh) {
         if (refresh) {
-            mData.clear();
-            notifyDataSetChanged();
+            clear();
         }
         int lastSize = mData.size();
         int newCount = results.size();
