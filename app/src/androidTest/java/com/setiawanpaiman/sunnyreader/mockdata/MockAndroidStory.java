@@ -32,6 +32,11 @@ public class MockAndroidStory {
                 "Text " + id, null, id, new ArrayList<Long>(), (int) id * 10);
     }
 
+    public static Story generateMockStoryNoText(long id) {
+        return create(id, 1462133885L - (id * 1000), "Author " + id, "Title " + id,
+                null, "http://www.domain" + id + ".com/url", id, new ArrayList<Long>(), (int) id * 10);
+    }
+
     public static List<Story> generateMockStories(long start, long count) {
         List<Story> stories = new ArrayList<>();
         for (long i = start; i < start + count; i++) {
@@ -44,6 +49,14 @@ public class MockAndroidStory {
         List<Story> stories = new ArrayList<>();
         for (long i = start; i < start + count; i++) {
             stories.add(generateMockStoryNoUrl(i));
+        }
+        return stories;
+    }
+
+    public static List<Story> generateMockStoriesNoText(long start, long count) {
+        List<Story> stories = new ArrayList<>();
+        for (long i = start; i < start + count; i++) {
+            stories.add(generateMockStoryNoText(i));
         }
         return stories;
     }

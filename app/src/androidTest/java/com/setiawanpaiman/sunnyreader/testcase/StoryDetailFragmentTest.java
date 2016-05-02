@@ -33,16 +33,17 @@ import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.setiawanpaiman.sunnyreader.utils.MatcherUtils.withRecyclerView;
 import static com.setiawanpaiman.sunnyreader.utils.MatcherUtils.withToolbarTitle;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -84,9 +85,16 @@ public class StoryDetailFragmentTest extends BaseAndroidTest {
         CharSequence expectedTitle = mApplicationContext.getString(R.string.title_story_detail);
         onView(isAssignableFrom(Toolbar.class)).check(matches(withToolbarTitle(is(expectedTitle))));
 
-        ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, 0, 2, true);
-        onView(withRecyclerView(R.id.recycler_view).atPositionOnView(0, R.id.txt_content))
-                .check(matches(withText("Text 2")));
+        ViewAssertionUtils.assertStoryDetailViewHolder(mApplicationContext, 0, 2, true, true);
+    }
+
+    @Test
+    public void clickStoryWithoutTextShouldShowStoryDetailCorrectly() throws Exception {
+        when(mHackerNewsService.getTopStories(anyInt(), anyInt()))
+                .thenReturn(Observable.just(MockAndroidStory.generateMockStoriesNoText(1, 10)));
+        launchActivityAndMoveToStoryDetail();
+
+        ViewAssertionUtils.assertStoryDetailViewHolder(mApplicationContext, 0, 2, true, false);
     }
 
     @Test
@@ -99,7 +107,7 @@ public class StoryDetailFragmentTest extends BaseAndroidTest {
     }
 
     @Test
-    public void collapseExpandCommentsShouldWorkCorrectly() throws Exception {
+    public void expandCollapseCommentsShouldWorkCorrectly() throws Exception {
         launchActivityAndMoveToStoryDetail();
 
         // initial comments shown
@@ -171,6 +179,22 @@ public class StoryDetailFragmentTest extends BaseAndroidTest {
         // check expanded status for comment (id = 2), should only open 3 replies
         ViewActionUtils.clickComment(2);
         ViewAssertionUtils.assertCommentViewHolder(mApplicationContext, 6, 3, 4, 0);
+    }
+
+    @Test
+    public void expandCollapseSingleCommentShouldDoNothing() throws Exception {
+        when(mHackerNewsService.getComments(any(Story.class), anyInt(), anyInt()))
+                .thenReturn(Observable.just(MockAndroidComment.generateMockComments(1, 1, 0)))
+                .thenReturn(Observable.<List<Comment>> empty());
+        launchActivityAndMoveToStoryDetail();
+
+        ViewActionUtils.clickComment(1);
+        onView(withRecyclerView(R.id.recycler_view).atPositionOnView(2, R.id.txt_content))
+                .check(doesNotExist());
+
+        ViewActionUtils.clickComment(1);
+        onView(withRecyclerView(R.id.recycler_view).atPositionOnView(2, R.id.txt_content))
+                .check(doesNotExist());
     }
 
     private void launchActivityAndMoveToStoryDetail() {
