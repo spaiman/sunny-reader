@@ -1,8 +1,6 @@
 package com.setiawanpaiman.sunnyreader.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,6 +11,7 @@ import com.setiawanpaiman.sunnyreader.R;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.ui.adapter.EndlessListAdapter;
 import com.setiawanpaiman.sunnyreader.ui.adapter.StoryAdapter;
+import com.setiawanpaiman.sunnyreader.ui.listener.OnStoryClickListener;
 import com.setiawanpaiman.sunnyreader.ui.presenter.EndlessListContract;
 import com.setiawanpaiman.sunnyreader.ui.presenter.TopStoriesPresenter;
 import com.setiawanpaiman.sunnyreader.ui.widget.DividerItemDecoration;
@@ -24,7 +23,7 @@ import java.util.List;
 public class TopStoriesFragment extends EndlessListFragment<Story>
         implements StoryAdapter.OnClickListener {
 
-    private OnInteractionListener mOnInteractionListener;
+    private OnStoryClickListener mOnStoryClickListener;
 
     public static TopStoriesFragment newInstance() {
         return new TopStoriesFragment();
@@ -36,8 +35,8 @@ public class TopStoriesFragment extends EndlessListFragment<Story>
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnInteractionListener) {
-            mOnInteractionListener = (OnInteractionListener) context;
+        if (context instanceof OnStoryClickListener) {
+            mOnStoryClickListener = (OnStoryClickListener) context;
         }
     }
 
@@ -70,21 +69,16 @@ public class TopStoriesFragment extends EndlessListFragment<Story>
     }
 
     @Override
-    public void onStoryClicked(Story story) {
-        if (mOnInteractionListener != null) {
-            mOnInteractionListener.onStoryClicked(story);
+    public void onStoryClicked(Story story, StoryAdapter.ViewHolder vh) {
+        if (mOnStoryClickListener != null) {
+            mOnStoryClickListener.onOpenStoryDetail(story, vh);
         }
     }
 
     @Override
     public void onOpenInBrowserClicked(Story story) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(story.getUrl()));
-        startActivity(intent);
-    }
-
-    public interface OnInteractionListener {
-
-        void onStoryClicked(Story story);
+        if (mOnStoryClickListener != null) {
+            mOnStoryClickListener.onOpenStoryInBrowser(story);
+        }
     }
 }

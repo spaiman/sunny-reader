@@ -1,6 +1,7 @@
 package com.setiawanpaiman.sunnyreader.ui.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -35,6 +36,8 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
     private List<Comment> mAllComments;
     private SparseBooleanArray mExpanded;
 
+    private StoryAdapter.OnClickListener mOnStoryClickListener;
+
     public CommentAdapter(Context context, Story story) {
         super(context);
         mStory = story;
@@ -47,7 +50,17 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
         LayoutInflater inflater = LayoutInflater.from(mContext);
         if (viewType == ITEM_VIEW_TYPE_HEADER_STORY) {
             final View view = inflater.inflate(R.layout.item_story_detail, parent, false);
-            return new StoryDetailViewHolder(view);
+            final StoryDetailViewHolder vh = new StoryDetailViewHolder(view);
+            vh.btnOpen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = vh.getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION && mOnStoryClickListener != null) {
+                        mOnStoryClickListener.onOpenInBrowserClicked(mStory);
+                    }
+                }
+            });
+            return vh;
         } else {
             final View view = inflater.inflate(R.layout.item_comment, parent, false);
             final ViewHolder vh = new ViewHolder(view);
@@ -74,6 +87,10 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
     protected void onBindViewHolderItem(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof StoryDetailViewHolder) {
             ((StoryDetailViewHolder) holder).bind(mContext, mStory);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ((StoryDetailViewHolder) holder).itemView.setTransitionName(
+                        mContext.getString(R.string.story_transition_name, mStory.getId()));
+            }
         } else if (holder instanceof ViewHolder) {
             Comment comment = mData.get(position - 1);
             ViewHolder vh = (ViewHolder) holder;
@@ -116,6 +133,10 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
         }
 
         notifyItemRangeInserted(oldSize + 1, addedCount);
+    }
+
+    public void setOnStoryClickListener(StoryAdapter.OnClickListener onStoryClickListener) {
+        mOnStoryClickListener = onStoryClickListener;
     }
 
     private boolean isExpanded(int adapterPos) {

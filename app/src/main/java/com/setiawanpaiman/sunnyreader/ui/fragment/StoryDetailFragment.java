@@ -1,5 +1,6 @@
 package com.setiawanpaiman.sunnyreader.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,8 @@ import com.setiawanpaiman.sunnyreader.data.model.Comment;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.ui.adapter.CommentAdapter;
 import com.setiawanpaiman.sunnyreader.ui.adapter.EndlessListAdapter;
+import com.setiawanpaiman.sunnyreader.ui.adapter.StoryAdapter;
+import com.setiawanpaiman.sunnyreader.ui.listener.OnStoryClickListener;
 import com.setiawanpaiman.sunnyreader.ui.presenter.EndlessListContract;
 import com.setiawanpaiman.sunnyreader.ui.presenter.StoryDetailPresenter;
 import com.setiawanpaiman.sunnyreader.util.AndroidUtils;
@@ -17,11 +20,13 @@ import rx.schedulers.Schedulers;
 
 import java.util.List;
 
-public class StoryDetailFragment extends EndlessListFragment<Comment> {
+public class StoryDetailFragment extends EndlessListFragment<Comment>
+        implements StoryAdapter.OnClickListener {
 
     private static final String BUNDLE_STORY = "story";
 
     private Story mStory;
+    private OnStoryClickListener mOnStoryClickListener;
 
     public static StoryDetailFragment newInstance(@NonNull Story story) {
         StoryDetailFragment fragment = new StoryDetailFragment();
@@ -29,6 +34,14 @@ public class StoryDetailFragment extends EndlessListFragment<Comment> {
         args.putParcelable(BUNDLE_STORY, story);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnStoryClickListener) {
+            mOnStoryClickListener = (OnStoryClickListener) context;
+        }
     }
 
     @Override
@@ -62,6 +75,17 @@ public class StoryDetailFragment extends EndlessListFragment<Comment> {
 
     @Override
     public EndlessListAdapter<Comment, ?> createAdapter() {
-        return new CommentAdapter(getContext(), mStory);
+        CommentAdapter adapter = new CommentAdapter(getContext(), mStory);
+        adapter.setOnStoryClickListener(this);
+        return adapter;
+    }
+
+    @Override
+    public void onStoryClicked(Story story, StoryAdapter.ViewHolder vh) {
+    }
+
+    @Override
+    public void onOpenInBrowserClicked(Story story) {
+        mOnStoryClickListener.onOpenStoryInBrowser(story);
     }
 }
