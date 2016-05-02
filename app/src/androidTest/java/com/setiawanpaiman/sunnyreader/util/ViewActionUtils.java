@@ -13,10 +13,15 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.setiawanpaiman.sunnyreader.util.MatcherUtils.withRecyclerView;
 
 public class ViewActionUtils {
+
+    public static void pressUpButton() {
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+    }
 
     public static void clickComment(int position) {
         onView(withId(R.id.recycler_view)).perform(scrollToPosition(position));

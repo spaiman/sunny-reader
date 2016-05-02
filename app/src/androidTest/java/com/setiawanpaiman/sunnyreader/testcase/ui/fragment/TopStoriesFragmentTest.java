@@ -2,6 +2,7 @@ package com.setiawanpaiman.sunnyreader.testcase.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -58,10 +59,6 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
     public void setUp() throws Exception {
         mApplicationContext = InstrumentationRegistry.getTargetContext();
         mHackerNewsService = getApplicationComponent().provideHackerNewsService();
-    }
-
-    @Test
-    public void refreshAndLoadMoreShouldShowCorrectStories() throws Exception {
         when(mHackerNewsService.getTopStories(anyInt(), anyInt()))
                 .thenAnswer(new Answer<Observable<List<Story>>>() {
                     @Override
@@ -79,6 +76,10 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
                         }
                     }
                 });
+    }
+
+    @Test
+    public void refreshAndLoadMoreShouldShowCorrectStories() throws Exception {
         launchActivity();
 
         ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.app_name));
@@ -96,6 +97,25 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
         onView(withId(R.id.recycler_view)).perform(scrollToPosition(20));
         onView(withRecyclerView(R.id.recycler_view).atPositionOnView(20, R.id.txt_title))
                 .check(doesNotExist());
+    }
+
+    @Test
+    public void configurationChangeShouldRetainState() throws Exception {
+        launchActivity();
+
+        // scroll to footer to trigger load more, also assert item 20th
+        onView(withId(R.id.recycler_view)).perform(scrollToPosition(10));
+        ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, 19, 20, true);
+
+        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.app_name));
+        // re-assert item 20th to check whether state maintained or not
+        ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, 19, 20, true);
     }
 
     @Test

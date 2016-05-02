@@ -2,6 +2,7 @@ package com.setiawanpaiman.sunnyreader.testcase.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
@@ -91,6 +92,25 @@ public class StoryDetailFragmentTest extends BaseAndroidTest {
         launchActivityAndMoveToStoryDetail();
 
         ViewAssertionUtils.assertStoryDetailViewHolder(mApplicationContext, 0, 2, true, false);
+    }
+
+    @Test
+    public void configurationChangeShouldRetainState() throws Exception {
+        when(mHackerNewsService.getComments(any(Story.class), anyInt(), anyInt()))
+                .thenReturn(Observable.just(MockAndroidComment.generateMockComments(1, 1, 0)))
+                .thenReturn(Observable.<List<Comment>> empty());
+
+        launchActivityAndMoveToStoryDetail();
+
+        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.title_story_detail));
+        ViewAssertionUtils.assertStoryDetailViewHolder(mApplicationContext, 0, 2, true, true);
+        ViewAssertionUtils.assertCommentViewHolder(mApplicationContext, 1, 1, 0, 0);
     }
 
     @Test
@@ -184,6 +204,7 @@ public class StoryDetailFragmentTest extends BaseAndroidTest {
                 .thenReturn(Observable.<List<Comment>> empty());
         launchActivityAndMoveToStoryDetail();
 
+        ViewAssertionUtils.assertCommentViewHolder(mApplicationContext, 1, 1, 0, 0);
         ViewActionUtils.clickComment(1);
         onView(withRecyclerView(R.id.recycler_view).atPositionOnView(2, R.id.txt_content))
                 .check(doesNotExist());
