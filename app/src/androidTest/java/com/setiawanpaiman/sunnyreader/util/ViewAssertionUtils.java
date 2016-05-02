@@ -1,4 +1,4 @@
-package com.setiawanpaiman.sunnyreader.utils;
+package com.setiawanpaiman.sunnyreader.util;
 
 import android.content.Context;
 import android.net.Uri;
@@ -20,7 +20,7 @@ import static android.support.test.espresso.contrib.RecyclerViewActions.scrollTo
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.setiawanpaiman.sunnyreader.utils.MatcherUtils.withRecyclerView;
+import static com.setiawanpaiman.sunnyreader.util.MatcherUtils.withRecyclerView;
 
 public class ViewAssertionUtils {
 

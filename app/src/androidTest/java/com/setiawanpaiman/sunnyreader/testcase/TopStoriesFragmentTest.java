@@ -14,7 +14,7 @@ import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 import com.setiawanpaiman.sunnyreader.mockdata.MockAndroidStory;
 import com.setiawanpaiman.sunnyreader.ui.activity.MainActivity;
-import com.setiawanpaiman.sunnyreader.utils.ViewAssertionUtils;
+import com.setiawanpaiman.sunnyreader.util.ViewAssertionUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,8 +39,8 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAct
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.setiawanpaiman.sunnyreader.utils.MatcherUtils.withRecyclerView;
-import static com.setiawanpaiman.sunnyreader.utils.MatcherUtils.withToolbarTitle;
+import static com.setiawanpaiman.sunnyreader.util.MatcherUtils.withRecyclerView;
+import static com.setiawanpaiman.sunnyreader.util.MatcherUtils.withToolbarTitle;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.anyInt;

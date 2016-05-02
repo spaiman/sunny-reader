@@ -1,4 +1,4 @@
-package com.setiawanpaiman.sunnyreader.utils;
+package com.setiawanpaiman.sunnyreader.util;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;

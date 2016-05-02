@@ -1,4 +1,4 @@
-package com.setiawanpaiman.sunnyreader.utils;
+package com.setiawanpaiman.sunnyreader.util;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -14,7 +14,7 @@ import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.setiawanpaiman.sunnyreader.utils.MatcherUtils.withRecyclerView;
+import static com.setiawanpaiman.sunnyreader.util.MatcherUtils.withRecyclerView;
 
 public class ViewActionUtils {
 
