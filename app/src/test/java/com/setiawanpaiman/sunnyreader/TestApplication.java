@@ -3,24 +3,24 @@ package com.setiawanpaiman.sunnyreader;
 import android.app.Application;
 
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.setiawanpaiman.sunnyreader.di.component.DaggerMockApplicationComponent;
-import com.setiawanpaiman.sunnyreader.di.component.MockApplicationComponent;
-import com.setiawanpaiman.sunnyreader.di.module.MockApplicationModule;
+import com.setiawanpaiman.sunnyreader.di.component.DaggerMockTestApplicationComponent;
+import com.setiawanpaiman.sunnyreader.di.component.MockTestApplicationComponent;
+import com.setiawanpaiman.sunnyreader.di.module.MockTestApplicationModule;
 
 public class TestApplication extends Application {
 
-    private MockApplicationComponent mApplicationComponent;
+    private MockTestApplicationComponent mApplicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         FlowManager.init(this);
-        mApplicationComponent = DaggerMockApplicationComponent.builder()
-                .mockApplicationModule(new MockApplicationModule(this))
+        mApplicationComponent = DaggerMockTestApplicationComponent.builder()
+                .mockTestApplicationModule(new MockTestApplicationModule(this))
                 .build();
     }
 
-    public MockApplicationComponent getApplicationComponent() {
+    public MockTestApplicationComponent getApplicationComponent() {
         return mApplicationComponent;
     }
 }
