@@ -1,6 +1,11 @@
 language: android
 jdk: oraclejdk7
 
+env:
+  global:
+    # install timeout in minutes (2 minutes by default)
+    - ADB_INSTALL_TIMEOUT=8
+
 before_install:
     - chmod +x gradlew
 
@@ -30,4 +35,4 @@ android:
     # - sys-img-x86-android-17
 
 script:
-    - ./gradlew coveralls
+    - ./gradlew coveralls --stacktrace
