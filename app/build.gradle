@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'jacoco-android'
 apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 23
@@ -32,29 +32,45 @@ android {
     }
 }
 
-jacocoAndroidUnitTestReport {
-    csv.enabled false
-    html.enabled true
-    xml.enabled true
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
-    excludes += [
-            'com/setiawanpaiman/sunnyreader/di/module/**',
-            'com/setiawanpaiman/sunnyreader/domain/api/**',
-            'com/raizlabs/**',
-            '**/*_Adapter*.*',
-            '**/*_Table*.*',
-            '**/*_Database*.*',
-            '**/*$ViewBinder*.*',
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    jacocoClasspath = configurations['androidJacocoAnt']
+
+    def fileFilter = ['**/R.class',
+                      '**/R$*.class',
+                      '**/BuildConfig.*',
+                      '**/Manifest*.*',
+                      '**/*Test*.*',
+                      'android/**/*.*',
+                      'com/setiawanpaiman/sunnyreader/di/**',
+                      'com/setiawanpaiman/sunnyreader/domain/api/**',
+                      'com/raizlabs/**',
+                      '**/*_Adapter*.*',
+                      '**/*_Table*.*',
+                      '**/*_Database*.*',
+                      '**/*$ViewBinder*.*',
     ]
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
 
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = files(["${buildDir}/jacoco/testDebugUnitTest.exec",
+                           "${buildDir}/outputs/code-coverage/connected/coverage.ec"
+    ])
 }
 
 coveralls {
-    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml"
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
 }
 
 tasks.coveralls {
-    dependsOn 'jacocoTestDebugUnitTestReport'
+    dependsOn 'jacocoTestReport'
     onlyIf { System.env.'CI' }
 }
 
