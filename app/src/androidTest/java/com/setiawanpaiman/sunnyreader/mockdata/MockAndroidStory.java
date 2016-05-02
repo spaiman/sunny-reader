@@ -23,13 +23,13 @@ public class MockAndroidStory {
 
     public static Story generateMockStory(long id) {
         return create(id, 1462133885L - (id * 1000), "Author " + id, "Title " + id,
-                "Text " + id, "http://www.domain" + id + ".com/url", id,
+                "\n\n<b>Text</b> " + id + "\n\n", "http://www.domain" + id + ".com/url", id,
                 new ArrayList<Long>(), (int) id * 10);
     }
 
     public static Story generateMockStoryNoUrl(long id) {
         return create(id, 1462133885L - (id * 1000), "Author " + id, "Title " + id,
-                "Text " + id, null, id, new ArrayList<Long>(), (int) id * 10);
+                "\n\n<b>Text</b> " + id + "\n\n", null, id, new ArrayList<Long>(), (int) id * 10);
     }
 
     public static Story generateMockStoryNoText(long id) {

@@ -24,7 +24,8 @@ public class MockAndroidComment {
     }
 
     public static Comment generateMockComment(long id, int totalReplies, int depth) {
-        return create(id, 1462133885L - (id * 1000), "Author Comment " + id, "<b>Comment</b> " + id, id,
+        return create(id, 1462133885L - (id * 1000), "Author Comment " + id,
+                "\n\n<b>Comment</b> " + id + "\n\n", id,
                 new ArrayList<Long>(), false, totalReplies, depth);
     }
 

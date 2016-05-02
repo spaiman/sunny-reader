@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.Toolbar;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.setiawanpaiman.sunnyreader.Constants;
@@ -14,6 +13,7 @@ import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 import com.setiawanpaiman.sunnyreader.mockdata.MockAndroidStory;
 import com.setiawanpaiman.sunnyreader.ui.activity.MainActivity;
+import com.setiawanpaiman.sunnyreader.util.ViewActionUtils;
 import com.setiawanpaiman.sunnyreader.util.ViewAssertionUtils;
 
 import org.junit.Before;
@@ -32,17 +32,13 @@ import java.util.concurrent.TimeUnit;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.setiawanpaiman.sunnyreader.util.MatcherUtils.withRecyclerView;
-import static com.setiawanpaiman.sunnyreader.util.MatcherUtils.withToolbarTitle;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -64,7 +60,7 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
     }
 
     @Test
-    public void loadDataAndLoadMore_showTopStories() throws Exception {
+    public void refreshAndLoadMoreShouldShowCorrectStories() throws Exception {
         when(mHackerNewsService.getTopStories(anyInt(), anyInt()))
                 .thenAnswer(new Answer<Observable<List<Story>>>() {
                     @Override
@@ -84,12 +80,17 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
                 });
         launchActivity();
 
-        CharSequence expectedTitle = mApplicationContext.getString(R.string.app_name);
-        onView(isAssignableFrom(Toolbar.class)).check(matches(withToolbarTitle(is(expectedTitle))));
+        ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.app_name));
         for (int i = 1; i <= 20; i++) {
-            onView(withId(R.id.recycler_view)).perform(scrollToPosition(i - 1));
             ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, true);
         }
+
+        // swipe refresh, same items should be shown
+        ViewActionUtils.swipeRefresh();
+        for (int i = 1; i <= 20; i++) {
+            ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, true);
+        }
+
         // scroll to item 21, the item should not be found
         onView(withId(R.id.recycler_view)).perform(scrollToPosition(20));
         onView(withRecyclerView(R.id.recycler_view).atPositionOnView(20, R.id.txt_title))
@@ -97,7 +98,7 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
     }
 
     @Test
-    public void clickOpenStoryInBrowser_startIntent() throws Exception {
+    public void clickButtonOpenInStoryListShouldOpenUrlInBrowser() throws Exception {
         when(mHackerNewsService.getTopStories(anyInt(), anyInt()))
                 .thenReturn(Observable.just(MockAndroidStory.generateMockStories(1, 10)));
         launchActivity();
@@ -109,20 +110,18 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
     }
 
     @Test
-    public void loadDataNoUrl_showTopStoriesWithoutOpenButton() throws Exception {
+    public void storiesWithoutUrlShouldNotShownButtonOpenAndHostUrl() throws Exception {
         when(mHackerNewsService.getTopStories(anyInt(), anyInt()))
                 .thenReturn(Observable.just(MockAndroidStory.generateMockStoriesNoUrl(1, 10))
                         .delay(2, TimeUnit.SECONDS));
         launchActivity();
 
         for (int i = 1; i <= 10; i++) {
-            onView(withId(R.id.recycler_view)).perform(scrollToPosition(i - 1));
             ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, false);
         }
     }
 
     private void launchActivity() {
-        mActivityRule.launchActivity(
-                new Intent(mApplicationContext, MainActivity.class));
+        mActivityRule.launchActivity(new Intent(mApplicationContext, MainActivity.class));
     }
 }

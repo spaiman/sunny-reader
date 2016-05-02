@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.Toolbar;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.setiawanpaiman.sunnyreader.R;
@@ -34,15 +33,11 @@ import java.util.List;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static com.setiawanpaiman.sunnyreader.util.MatcherUtils.withRecyclerView;
-import static com.setiawanpaiman.sunnyreader.util.MatcherUtils.withToolbarTitle;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
@@ -82,9 +77,7 @@ public class StoryDetailFragmentTest extends BaseAndroidTest {
     public void clickStoryShouldShowStoryDetailCorrectly() throws Exception {
         launchActivityAndMoveToStoryDetail();
 
-        CharSequence expectedTitle = mApplicationContext.getString(R.string.title_story_detail);
-        onView(isAssignableFrom(Toolbar.class)).check(matches(withToolbarTitle(is(expectedTitle))));
-
+        ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.title_story_detail));
         ViewAssertionUtils.assertStoryDetailViewHolder(mApplicationContext, 0, 2, true, true);
     }
 
