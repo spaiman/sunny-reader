@@ -108,6 +108,7 @@ dependencies {
     androidTestCompile "com.android.support.test:rules:0.5"
     androidTestCompile "com.android.support.test.espresso:espresso-core:${espressoVersion}"
     androidTestCompile "com.android.support.test.espresso:espresso-contrib:${espressoVersion}"
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:${espressoVersion}"
     androidTestCompile "com.android.support.test.espresso:espresso-web:${espressoVersion}"
     androidTestCompile "com.android.support.test.espresso:espresso-idling-resource:${espressoVersion}"
 
