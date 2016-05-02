@@ -54,11 +54,6 @@ public class EndlessRecyclerView extends RecyclerView {
         init();
     }
 
-    public void enableLoadMore() {
-        mPreviousTotal = Integer.MIN_VALUE;
-        mLoading = true;
-    }
-
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         mOnLoadMoreListener = onLoadMoreListener;
     }
