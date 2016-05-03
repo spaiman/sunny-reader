@@ -102,16 +102,20 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
     public void configurationChangeShouldRetainState() throws Exception {
         launchActivity();
 
-        // scroll to footer to trigger load more, also assert item 20th
+        // scroll to footer to trigger load more, also assert item 11 to 20
         onView(withId(R.id.recycler_view)).perform(scrollToPosition(10));
-        ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, 19, 20, true);
+        for (int i = 11; i <= 20; i++) {
+            ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, true);
+        }
 
         ViewActionUtils.rotateScreen(mActivityRule.getActivity());
         ViewActionUtils.rotateScreen(mActivityRule.getActivity());
 
         ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.app_name));
-        // re-assert item 20th to check whether state maintained or not
-        ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, 19, 20, true);
+        // re-assert item 11 to 20 to check whether state maintained or not
+        for (int i = 11; i <= 20; i++) {
+            ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, true);
+        }
     }
 
     @Test
