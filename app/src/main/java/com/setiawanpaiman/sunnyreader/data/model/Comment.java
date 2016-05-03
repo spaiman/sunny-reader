@@ -40,6 +40,7 @@ public class Comment implements Parcelable {
     @SerializedName("deleted")
     private boolean mDeleted;
 
+    private int mTotalReplies;
     private int mDepth;
 
     protected Comment(Builder builder) {
@@ -61,6 +62,7 @@ public class Comment implements Parcelable {
         this.mCommentIds = new ArrayList<Long>();
         in.readList(this.mCommentIds, Long.class.getClassLoader());
         this.mDeleted = in.readByte() != 0;
+        this.mTotalReplies = in.readInt();
         this.mDepth = in.readInt();
     }
 
@@ -76,6 +78,7 @@ public class Comment implements Parcelable {
         dest.writeLong(this.mParentId);
         dest.writeList(this.mCommentIds);
         dest.writeByte(mDeleted ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.mTotalReplies);
         dest.writeInt(this.mDepth);
     }
 
@@ -108,6 +111,14 @@ public class Comment implements Parcelable {
 
     public boolean isDeleted() {
         return mDeleted;
+    }
+
+    public int getTotalReplies() {
+        return mTotalReplies;
+    }
+
+    public void setTotalReplies(int totalReplies) {
+        mTotalReplies = totalReplies;
     }
 
     public int getDepth() {

@@ -103,11 +103,7 @@ public class HackerNewsDiskStore implements HackerNewsPersistent {
         }).map(new Func1<ItemCache, T>() {
             @Override
             public T call(ItemCache itemCache) {
-                if (itemCache != null) {
-                    return mJsonParser.fromJson(itemCache.getResponse(), clazz);
-                }
-
-                return null;
+                return mJsonParser.fromJson(itemCache.getResponse(), clazz);
             }
         });
     }

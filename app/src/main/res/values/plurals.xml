@@ -5,4 +5,8 @@
         <item quantity="one">%d comment</item>
         <item quantity="other">%d comments</item>
     </plurals>
+    <plurals name="total_replies">
+        <item quantity="one">+%1d reply</item>
+        <item quantity="other">+%1d replies</item>
+    </plurals>
 </resources>

@@ -3,6 +3,7 @@ package com.setiawanpaiman.sunnyreader.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.DisplayMetrics;
 
 public final class AndroidUtils {
 
@@ -36,5 +37,10 @@ public final class AndroidUtils {
         }
 
         return s.subSequence(start, end);
+    }
+
+    public static int dpToPx(Context context, int dp) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }

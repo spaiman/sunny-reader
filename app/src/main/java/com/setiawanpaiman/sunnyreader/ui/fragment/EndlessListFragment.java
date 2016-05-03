@@ -68,8 +68,13 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
         View view = inflater.inflate(R.layout.fragment_endless_list, container, false);
         ButterKnife.bind(this, view);
         initViews();
-        if (!mAdapter.hasData()) onRefresh();
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (!mAdapter.hasData()) onRefresh();
     }
 
     @Override

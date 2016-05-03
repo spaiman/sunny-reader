@@ -21,11 +21,11 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class MockApplicationModule {
+public class MockTestApplicationModule {
 
     private Application mApplication;
 
-    public MockApplicationModule(Application application) {
+    public MockTestApplicationModule(Application application) {
         mApplication = application;
     }
 

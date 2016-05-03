@@ -19,6 +19,7 @@
                   android:top="@dimen/non_stroke_offset">
                 <shape android:shape="rectangle">
                     <stroke android:width="@dimen/line_height" android:color="@color/silver" />
+                    <solid android:color="@android:color/transparent" />
                 </shape>
             </item>
         </layer-list>

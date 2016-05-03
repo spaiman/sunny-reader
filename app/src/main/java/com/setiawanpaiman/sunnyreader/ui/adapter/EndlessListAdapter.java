@@ -33,16 +33,16 @@ public abstract class EndlessListAdapter<T, VH extends RecyclerView.ViewHolder>
         if (isFooterVisible() != footerVisible) {
             super.setFooterVisible(footerVisible);
             if (footerVisible) {
-                notifyItemInserted(mData.size());
+                notifyItemInserted(getFooterPosition());
             } else {
-                notifyItemRemoved(mData.size());
+                notifyItemRemoved(getFooterPosition());
             }
         }
     }
 
     @Override
     protected boolean isFooter(int position) {
-        return position == mData.size();
+        return position == getFooterPosition();
     }
 
     @Override
@@ -62,20 +62,9 @@ public abstract class EndlessListAdapter<T, VH extends RecyclerView.ViewHolder>
     }
 
     @Override
-    public void add(T result, boolean refresh) {
-        if (refresh) {
-            mData.clear();
-            notifyDataSetChanged();
-        }
-        mData.add(result);
-        notifyItemInserted(mData.size() - 1);
-    }
-
-    @Override
     public void addAll(List<T> results, boolean refresh) {
         if (refresh) {
-            mData.clear();
-            notifyDataSetChanged();
+            clear();
         }
         int lastSize = mData.size();
         int newCount = results.size();
@@ -87,6 +76,10 @@ public abstract class EndlessListAdapter<T, VH extends RecyclerView.ViewHolder>
     public void clear() {
         mData.clear();
         notifyDataSetChanged();
+    }
+
+    public int getFooterPosition() {
+        return mData.size();
     }
 
     static class FooterViewHolder extends RecyclerView.ViewHolder {

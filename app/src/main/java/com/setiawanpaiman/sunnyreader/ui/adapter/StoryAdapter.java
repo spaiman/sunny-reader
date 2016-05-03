@@ -2,6 +2,7 @@ package com.setiawanpaiman.sunnyreader.ui.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -38,7 +39,7 @@ public class StoryAdapter extends EndlessListAdapter<Story, StoryAdapter.ViewHol
                 if (mOnClickListener != null) {
                     int pos = vh.getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
-                        mOnClickListener.onStoryClicked(mData.get(pos));
+                        mOnClickListener.onStoryClicked(mData.get(pos), vh);
                     }
                 }
             }
@@ -60,6 +61,10 @@ public class StoryAdapter extends EndlessListAdapter<Story, StoryAdapter.ViewHol
     @Override
     protected void onBindViewHolderItem(ViewHolder holder, int position) {
         holder.bind(mContext, mData.get(position));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.itemView.setTransitionName(mContext.getString(R.string.story_transition_name,
+                    mData.get(position).getId()));
+        }
     }
 
     public void setOnClickListener(OnClickListener onClickListener) {
@@ -69,25 +74,25 @@ public class StoryAdapter extends EndlessListAdapter<Story, StoryAdapter.ViewHol
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.txt_title)
-        TextView txtTitle;
+        public TextView txtTitle;
 
         @BindView(R.id.txt_total_points)
-        TextView txtTotalPoints;
+        public TextView txtTotalPoints;
 
         @BindView(R.id.txt_author)
-        TextView txtAuthor;
+        public TextView txtAuthor;
 
         @BindView(R.id.txt_time)
-        TextView txtTime;
+        public TextView txtTime;
 
         @BindView(R.id.txt_total_comments)
-        TextView txtTotalComments;
+        public TextView txtTotalComments;
 
         @BindView(R.id.txt_host_url)
-        TextView txtHostUrl;
+        public TextView txtHostUrl;
 
         @BindView(R.id.btn_open)
-        ImageView btnOpen;
+        public ImageView btnOpen;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -115,7 +120,7 @@ public class StoryAdapter extends EndlessListAdapter<Story, StoryAdapter.ViewHol
 
     public interface OnClickListener {
 
-        void onStoryClicked(Story story);
+        void onStoryClicked(Story story, ViewHolder vh);
 
         void onOpenInBrowserClicked(Story story);
     }

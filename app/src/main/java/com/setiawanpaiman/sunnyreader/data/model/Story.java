@@ -23,6 +23,9 @@ public class Story implements Parcelable {
     @SerializedName("title")
     private String mTitle;
 
+    @SerializedName("text")
+    private String mText;
+
     @SerializedName("url")
     private String mUrl;
 
@@ -31,6 +34,9 @@ public class Story implements Parcelable {
 
     @SerializedName("kids")
     private List<Long> mCommentIds;
+
+    @SerializedName("descendants")
+    private int mTotalComments;
 
     public static final Parcelable.Creator<Story> CREATOR = new Parcelable.Creator<Story>() {
         @Override
@@ -49,9 +55,11 @@ public class Story implements Parcelable {
         mTimestamp = builder.mTimestamp;
         mAuthor = builder.mAuthor;
         mTitle = builder.mTitle;
+        mText = builder.mText;
         mUrl = builder.mUrl;
         mScore = builder.mScore;
         mCommentIds = builder.mCommentIds;
+        mTotalComments = builder.mTotalComments;
     }
 
     protected Story(Parcel in) {
@@ -59,10 +67,12 @@ public class Story implements Parcelable {
         this.mTimestamp = in.readLong();
         this.mAuthor = in.readString();
         this.mTitle = in.readString();
+        this.mText = in.readString();
         this.mUrl = in.readString();
         this.mScore = in.readLong();
         this.mCommentIds = new ArrayList<>();
         in.readList(this.mCommentIds, Long.class.getClassLoader());
+        this.mTotalComments = in.readInt();
     }
 
     @Override
@@ -74,9 +84,11 @@ public class Story implements Parcelable {
         dest.writeLong(this.mTimestamp);
         dest.writeString(this.mAuthor);
         dest.writeString(this.mTitle);
+        dest.writeString(this.mText);
         dest.writeString(this.mUrl);
         dest.writeLong(this.mScore);
         dest.writeList(this.mCommentIds);
+        dest.writeInt(this.mTotalComments);
     }
 
     public long getId() {
@@ -95,6 +107,10 @@ public class Story implements Parcelable {
         return mTitle;
     }
 
+    public String getText() {
+        return mText;
+    }
+
     public String getUrl() {
         return mUrl;
     }
@@ -111,8 +127,7 @@ public class Story implements Parcelable {
     }
 
     public int getTotalComments() {
-        if (mCommentIds == null) return 0;
-        else return mCommentIds.size();
+        return mTotalComments;
     }
 
     public static Builder newBuilder(long id) {
@@ -124,9 +139,11 @@ public class Story implements Parcelable {
         private long mTimestamp;
         private String mAuthor;
         private String mTitle;
+        private String mText;
         private String mUrl;
         private long mScore;
         private List<Long> mCommentIds;
+        private int mTotalComments;
 
         public Builder(long id) {
             mId = id;
@@ -148,6 +165,11 @@ public class Story implements Parcelable {
             return this;
         }
 
+        public Builder setText(String text) {
+            mText = text;
+            return this;
+        }
+
         public Builder setUrl(String url) {
             mUrl = url;
             return this;
@@ -161,6 +183,11 @@ public class Story implements Parcelable {
         public Builder setCommentIds(List<Long> commentIds) {
             mCommentIds.clear();
             if (commentIds != null) mCommentIds.addAll(commentIds);
+            return this;
+        }
+
+        public Builder setTotalComments(int totalComments) {
+            mTotalComments = totalComments;
             return this;
         }
 
