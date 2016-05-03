@@ -6,7 +6,7 @@ The application can be installed from Android 2.3 (Gingerbread - API 9) to Andro
 - Show comments and replies for each News/Job/Ask/Poll in a tree alike structure
 - Expand and collapse replies
 - Open news article in external browser
-- Support offline reading. If you have retrieved top stories or seen comment in a story previously, it will be cached locally to support offline reading. **Note that:** cache will only be used if you don't have internet connection.
+- Offline reading. If you have retrieved top stories or seen comment in a story previously, it will be cached locally to support offline reading. **Note that:** cache will only be used if you don't have internet connection.
 
 Third-party libraries used:
 - [Android Support Libraries](http://developer.android.com/tools/support-library/index.html)
@@ -25,6 +25,12 @@ Third-party libraries used specific for unit tests and instrumentation tests:
 - [Robolectric](http://robolectric.org/) - Android Unit Test Framework
 - [Espresso](https://google.github.io/android-testing-support-library/docs/espresso/) - Instrumentation Test Framework
 
+Additional tools:
+- [Android APT](https://bitbucket.org/hvisser/android-apt) - Annotations Processor Tools
+- [Jacoco](http://eclemma.org/jacoco/) - Code Coverage Library
+- [Travis](https://travis-ci.org/) - Continuous Integration Server
+- [Coveralls](https://coveralls.io/) - Code Coverage Reporting
+
 To build the app in Debug mode, please run this in the command line of the application directory:
 ```
 ./gradlew assembleDebug
@@ -37,4 +43,5 @@ To execute unit tests and instrumentation test including its code coverage repor
 ./gradlew jacocoTestReport
 ```
 Code coverage report could be found in `{appDirectory}/app/build/reports/jacoco/jacocoTestReport/html/index.html`
+
 **Note**: Both unit tests and instrumentation tests will not make any actual network requests.
