@@ -2,7 +2,6 @@ package com.setiawanpaiman.sunnyreader.testcase.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -107,11 +106,8 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
         onView(withId(R.id.recycler_view)).perform(scrollToPosition(10));
         ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, 19, 20, true);
 
-        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-
-        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        ViewActionUtils.rotateScreen(mActivityRule.getActivity());
+        ViewActionUtils.rotateScreen(mActivityRule.getActivity());
 
         ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.app_name));
         // re-assert item 20th to check whether state maintained or not

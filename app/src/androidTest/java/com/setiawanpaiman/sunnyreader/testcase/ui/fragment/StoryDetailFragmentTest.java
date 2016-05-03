@@ -2,7 +2,6 @@ package com.setiawanpaiman.sunnyreader.testcase.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
@@ -102,11 +101,8 @@ public class StoryDetailFragmentTest extends BaseAndroidTest {
 
         launchActivityAndMoveToStoryDetail();
 
-        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-
-        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        ViewActionUtils.rotateScreen(mActivityRule.getActivity());
+        ViewActionUtils.rotateScreen(mActivityRule.getActivity());
 
         ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.title_story_detail));
         ViewAssertionUtils.assertStoryDetailViewHolder(mApplicationContext, 0, 2, true, true);
