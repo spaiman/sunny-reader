@@ -99,26 +99,6 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
     }
 
     @Test
-    public void configurationChangeShouldRetainState() throws Exception {
-        launchActivity();
-
-        // scroll to footer to trigger load more, also assert item 11 to 20
-        onView(withId(R.id.recycler_view)).perform(scrollToPosition(10));
-        for (int i = 11; i <= 20; i++) {
-            ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, true);
-        }
-
-        ViewActionUtils.rotateScreen(mActivityRule.getActivity());
-        ViewActionUtils.rotateScreen(mActivityRule.getActivity());
-
-        ViewAssertionUtils.assertToolbarTitle(mApplicationContext.getString(R.string.app_name));
-        // re-assert item 11 to 20 to check whether state maintained or not
-        for (int i = 11; i <= 20; i++) {
-            ViewAssertionUtils.assertStoryViewHolder(mApplicationContext, i - 1, i, true);
-        }
-    }
-
-    @Test
     public void clickButtonOpenInStoryListShouldOpenUrlInBrowser() throws Exception {
         when(mHackerNewsService.getTopStories(anyInt(), anyInt()))
                 .thenReturn(Observable.just(MockAndroidStory.generateMockStories(1, 10)));
