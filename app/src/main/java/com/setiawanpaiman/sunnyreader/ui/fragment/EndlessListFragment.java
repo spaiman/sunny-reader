@@ -20,12 +20,16 @@ import com.setiawanpaiman.sunnyreader.ui.presenter.EndlessListContract;
 import com.setiawanpaiman.sunnyreader.ui.widget.EndlessRecyclerView;
 import com.setiawanpaiman.sunnyreader.util.AndroidUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class EndlessListFragment<Model extends Parcelable> extends BaseFragment
         implements EndlessListContract.View<List<Model>>,
                    SwipeRefreshLayout.OnRefreshListener,
                    EndlessRecyclerView.OnLoadMoreListener {
+
+    private static final String BUNDLE_PAGE = "page";
+    private static final String BUNDLE_DATA = "data";
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefresh;
@@ -72,9 +76,28 @@ public abstract class EndlessListFragment<Model extends Parcelable> extends Base
     }
 
     @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            mPresenter.onRestoreInstanceState(savedInstanceState.getInt(BUNDLE_PAGE));
+            List<Model> data = savedInstanceState.getParcelableArrayList(BUNDLE_DATA);
+            mAdapter.addAll(data, true);
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(BUNDLE_PAGE, mPresenter.getCurrentPage());
+        outState.putParcelableArrayList(BUNDLE_DATA, (ArrayList<Model>) mAdapter.getAll());
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (!mAdapter.hasData()) onRefresh();
+        if (!mAdapter.hasData() && savedInstanceState == null) onRefresh();
+        else if (!mAdapter.hasData()) onRefresh();
     }
 
     @Override

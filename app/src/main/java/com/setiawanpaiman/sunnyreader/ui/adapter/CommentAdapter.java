@@ -118,6 +118,11 @@ public class CommentAdapter extends EndlessListAdapter<Comment, RecyclerView.Vie
     }
 
     @Override
+    public List<Comment> getAll() {
+        return new ArrayList<>(mAllComments);
+    }
+
+    @Override
     public void addAll(List<Comment> results, boolean refresh) {
         if (refresh) {
             clear();
