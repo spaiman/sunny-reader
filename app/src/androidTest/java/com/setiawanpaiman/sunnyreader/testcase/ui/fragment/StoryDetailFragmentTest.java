@@ -16,6 +16,7 @@ import com.setiawanpaiman.sunnyreader.mockdata.MockAndroidComment;
 import com.setiawanpaiman.sunnyreader.mockdata.MockAndroidStory;
 import com.setiawanpaiman.sunnyreader.testcase.BaseAndroidTest;
 import com.setiawanpaiman.sunnyreader.ui.activity.MainActivity;
+import com.setiawanpaiman.sunnyreader.util.ActivityUtil;
 import com.setiawanpaiman.sunnyreader.util.ViewActionUtils;
 import com.setiawanpaiman.sunnyreader.util.ViewAssertionUtils;
 
@@ -240,6 +241,7 @@ public class StoryDetailFragmentTest extends BaseAndroidTest {
         mActivityRule.launchActivity(
                 new Intent(mApplicationContext, MainActivity.class));
 
+        ActivityUtil.unlockScreen(mActivityRule.getActivity());
         onView(withRecyclerView(R.id.recycler_view).atPositionOnView(1, R.id.txt_title))
                 .perform(click());
     }
