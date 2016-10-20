@@ -9,14 +9,14 @@ import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.api.HackerNewsApi;
 import com.setiawanpaiman.sunnyreader.domain.persistent.HackerNewsPersistent;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func0;
 import rx.functions.Func1;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class HackerNewsService implements IHackerNewsService {
 

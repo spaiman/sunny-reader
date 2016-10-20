@@ -3,10 +3,10 @@ package com.setiawanpaiman.sunnyreader.ui.presenter;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 
+import java.util.List;
+
 import rx.Observable;
 import rx.Scheduler;
-
-import java.util.List;
 
 public class TopStoriesPresenter extends EndlessListPresenter<List<Story>> {
 

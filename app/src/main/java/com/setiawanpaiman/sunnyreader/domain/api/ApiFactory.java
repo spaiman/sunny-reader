@@ -5,8 +5,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import rx.schedulers.Schedulers;
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -16,6 +14,7 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.schedulers.Schedulers;
 
 public class ApiFactory {
 

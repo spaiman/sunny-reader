@@ -4,10 +4,10 @@ import com.setiawanpaiman.sunnyreader.data.model.Comment;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 
+import java.util.List;
+
 import rx.Observable;
 import rx.Scheduler;
-
-import java.util.List;
 
 public class StoryDetailPresenter extends EndlessListPresenter<List<Comment>> {
 

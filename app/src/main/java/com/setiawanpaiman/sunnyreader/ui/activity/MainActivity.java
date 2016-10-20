@@ -12,14 +12,14 @@ import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.MenuItem;
 
-import butterknife.ButterKnife;
-
 import com.setiawanpaiman.sunnyreader.R;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.ui.adapter.StoryAdapter;
 import com.setiawanpaiman.sunnyreader.ui.fragment.StoryDetailFragment;
 import com.setiawanpaiman.sunnyreader.ui.fragment.TopStoriesFragment;
 import com.setiawanpaiman.sunnyreader.ui.listener.OnStoryClickListener;
+
+import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity
         implements OnStoryClickListener,

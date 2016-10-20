@@ -24,11 +24,11 @@ import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
-import rx.observers.TestSubscriber;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import rx.observers.TestSubscriber;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;

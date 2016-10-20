@@ -16,9 +16,9 @@ import com.setiawanpaiman.sunnyreader.ui.presenter.EndlessListContract;
 import com.setiawanpaiman.sunnyreader.ui.presenter.TopStoriesPresenter;
 import com.setiawanpaiman.sunnyreader.ui.widget.DividerItemDecoration;
 
-import rx.schedulers.Schedulers;
-
 import java.util.List;
+
+import rx.schedulers.Schedulers;
 
 public class TopStoriesFragment extends EndlessListFragment<Story>
         implements StoryAdapter.OnClickListener {

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import com.setiawanpaiman.sunnyreader.domain.api.HackerNewsApi;
 import com.setiawanpaiman.sunnyreader.domain.persistent.HackerNewsDiskStore;
 import com.setiawanpaiman.sunnyreader.domain.persistent.HackerNewsPersistent;

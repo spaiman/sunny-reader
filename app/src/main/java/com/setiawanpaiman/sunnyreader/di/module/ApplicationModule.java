@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import com.setiawanpaiman.sunnyreader.BuildConfig;
 import com.setiawanpaiman.sunnyreader.domain.api.ApiFactory;
 import com.setiawanpaiman.sunnyreader.domain.api.HackerNewsApi;
