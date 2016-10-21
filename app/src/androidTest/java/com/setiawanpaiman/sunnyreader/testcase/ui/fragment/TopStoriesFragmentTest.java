@@ -68,8 +68,7 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
                         int start = (page - 1) * Constants.PER_PAGE + 1;
                         if (page <= 2) {
                             return Observable.just(
-                                    MockAndroidStory.generateMockStories(start, count))
-                                    .delay(2, TimeUnit.SECONDS);
+                                    MockAndroidStory.generateMockStories(start, count));
                         } else {
                             List<Story> emptyStories = new ArrayList<>();
                             return Observable.just(emptyStories);
