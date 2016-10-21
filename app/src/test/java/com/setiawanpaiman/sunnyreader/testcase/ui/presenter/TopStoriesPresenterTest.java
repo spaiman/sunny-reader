@@ -17,13 +17,13 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricGradleTestRunner;
 
-import rx.Observable;
-import rx.schedulers.Schedulers;
-import rx.schedulers.TestScheduler;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.schedulers.Schedulers;
+import rx.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;

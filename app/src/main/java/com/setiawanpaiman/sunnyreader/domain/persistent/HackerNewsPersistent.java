@@ -3,9 +3,9 @@ package com.setiawanpaiman.sunnyreader.domain.persistent;
 import com.setiawanpaiman.sunnyreader.data.model.Comment;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 
-import rx.Observable;
-
 import java.util.List;
+
+import rx.Observable;
 
 public interface HackerNewsPersistent {
 

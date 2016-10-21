@@ -8,12 +8,12 @@ import com.setiawanpaiman.sunnyreader.data.model.Comment;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.util.JsonParser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import rx.Observable;
 import rx.functions.Func0;
 import rx.functions.Func1;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HackerNewsDiskStore implements HackerNewsPersistent {
 

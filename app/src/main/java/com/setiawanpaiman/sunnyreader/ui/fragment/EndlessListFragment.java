@@ -11,9 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import com.setiawanpaiman.sunnyreader.R;
 import com.setiawanpaiman.sunnyreader.ui.adapter.EndlessListAdapter;
 import com.setiawanpaiman.sunnyreader.ui.presenter.EndlessListContract;
@@ -22,6 +19,9 @@ import com.setiawanpaiman.sunnyreader.util.AndroidUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public abstract class EndlessListFragment<Model extends Parcelable> extends BaseFragment
         implements EndlessListContract.View<List<Model>>,

@@ -16,9 +16,9 @@ import com.setiawanpaiman.sunnyreader.ui.presenter.EndlessListContract;
 import com.setiawanpaiman.sunnyreader.ui.presenter.StoryDetailPresenter;
 import com.setiawanpaiman.sunnyreader.util.AndroidUtils;
 
-import rx.schedulers.Schedulers;
-
 import java.util.List;
+
+import rx.schedulers.Schedulers;
 
 public class StoryDetailFragment extends EndlessListFragment<Comment>
         implements StoryAdapter.OnClickListener {

@@ -3,9 +3,9 @@ package com.setiawanpaiman.sunnyreader.domain.service;
 import com.setiawanpaiman.sunnyreader.data.model.Comment;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 
-import rx.Observable;
-
 import java.util.List;
+
+import rx.Observable;
 
 public interface IHackerNewsService {
 
