@@ -14,6 +14,7 @@ import com.setiawanpaiman.sunnyreader.domain.service.IHackerNewsService;
 import com.setiawanpaiman.sunnyreader.mockdata.MockAndroidStory;
 import com.setiawanpaiman.sunnyreader.testcase.BaseAndroidTest;
 import com.setiawanpaiman.sunnyreader.ui.activity.MainActivity;
+import com.setiawanpaiman.sunnyreader.util.ActivityUtil;
 import com.setiawanpaiman.sunnyreader.util.ViewActionUtils;
 import com.setiawanpaiman.sunnyreader.util.ViewAssertionUtils;
 
@@ -67,8 +68,7 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
                         int start = (page - 1) * Constants.PER_PAGE + 1;
                         if (page <= 2) {
                             return Observable.just(
-                                    MockAndroidStory.generateMockStories(start, count))
-                                    .delay(2, TimeUnit.SECONDS);
+                                    MockAndroidStory.generateMockStories(start, count));
                         } else {
                             List<Story> emptyStories = new ArrayList<>();
                             return Observable.just(emptyStories);
@@ -124,5 +124,6 @@ public class TopStoriesFragmentTest extends BaseAndroidTest {
 
     private void launchActivity() {
         mActivityRule.launchActivity(new Intent(mApplicationContext, MainActivity.class));
+        ActivityUtil.unlockScreen(mActivityRule.getActivity());
     }
 }

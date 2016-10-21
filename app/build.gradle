@@ -4,13 +4,13 @@ apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.setiawanpaiman.sunnyreader"
         minSdkVersion 9
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
 
@@ -75,7 +75,7 @@ tasks.coveralls {
 }
 
 ext {
-    androidSupportVersion = "23.3.0"
+    androidSupportVersion = "24.2.1"
     retrofitVersion = "2.0.2"
     daggerVersion = "2.2"
     dbFlowVersion = "3.0.0-beta5"
@@ -132,5 +132,5 @@ dependencies {
     compile "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
     compile 'io.reactivex:rxjava:1.2.1'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'com.android.support:support-v4:23.3.0'
+    compile "com.android.support:support-v4:${androidSupportVersion}"
 }
