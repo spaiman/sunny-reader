@@ -8,7 +8,7 @@ import com.setiawanpaiman.sunnyreader.testcase.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class StoryTest extends BaseTest {
 
     private Story mStory;

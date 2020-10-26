@@ -2,6 +2,7 @@ package com.setiawanpaiman.sunnyreader.testcase.domain.persistent;
 
 import android.content.SharedPreferences;
 
+import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.setiawanpaiman.sunnyreader.data.db.AppDatabase;
 import com.setiawanpaiman.sunnyreader.data.model.Comment;
@@ -21,7 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import rx.observers.TestSubscriber;
@@ -36,7 +37,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class HackerNewsDiskStoreTest extends BaseTest {
 
     @Rule
@@ -53,7 +54,7 @@ public class HackerNewsDiskStoreTest extends BaseTest {
 
     @Before
     public void setUp() throws Exception {
-        FlowManager.init(RuntimeEnvironment.application);
+        FlowManager.init(new FlowConfig.Builder(RuntimeEnvironment.application).build());
     }
 
     @After
