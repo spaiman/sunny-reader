@@ -2,11 +2,11 @@ package com.setiawanpaiman.sunnyreader.testcase.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
+
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import com.setiawanpaiman.sunnyreader.R;
 import com.setiawanpaiman.sunnyreader.data.model.Comment;
@@ -27,6 +27,7 @@ import org.mockito.Matchers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import androidx.test.filters.SmallTest;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class StoryDetailFragmentTest extends BaseAndroidTest {
 
     @Before
     public void setUp() throws Exception {
-        mApplicationContext = InstrumentationRegistry.getTargetContext();
+        mApplicationContext = ApplicationProvider.getApplicationContext();
         mHackerNewsService = getApplicationComponent().provideHackerNewsService();
         when(mHackerNewsService.getTopStories(anyInt(), anyInt()))
                 .thenReturn(Observable.just(MockAndroidStory.generateMockStories(1, 10)));
