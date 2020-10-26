@@ -4,14 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
 import android.view.View;
 
 import com.setiawanpaiman.sunnyreader.R;
 
 import org.hamcrest.Matcher;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -40,7 +42,7 @@ public class ViewActionUtils {
     }
 
     public static void rotateScreen(Activity activity) {
-        Context context = InstrumentationRegistry.getTargetContext();
+        Context context = ApplicationProvider.getApplicationContext();
         int orientation = context.getResources().getConfiguration().orientation;
 
         activity.setRequestedOrientation(
