@@ -74,6 +74,19 @@ tasks.coveralls {
 
 ext {
     androidSupportVersion = "28.0.0"
+    androidXVersion = [
+            annotations: "1.0.0",
+            appCompat: "1.0.0",
+            cardView: "1.0.0",
+            legacySupport: "1.0.0",
+            material: "1.0.0",
+            recyclerView: "1.0.0"
+    ]
+    androidXTestVersion = [
+            espresso: "3.1.0",
+            junit: "1.1.1",
+            rules: "1.1.1",
+    ]
     retrofitVersion = "2.0.2"
     daggerVersion = "2.2"
     dbFlowVersion = "3.0.0"
@@ -97,25 +110,25 @@ dependencies {
     androidTestImplementation "com.crittercism.dexmaker:dexmaker:1.4"
     androidTestImplementation "com.crittercism.dexmaker:dexmaker-dx:1.4"
     androidTestImplementation "com.crittercism.dexmaker:dexmaker-mockito:1.4"
-    androidTestImplementation "com.android.support:appcompat-v7:${androidSupportVersion}"
-    androidTestImplementation "com.android.support:design:${androidSupportVersion}"
-    androidTestImplementation "com.android.support:recyclerview-v7:${androidSupportVersion}"
-    androidTestImplementation "com.android.support:support-v4:${androidSupportVersion}"
-    androidTestImplementation "com.android.support:support-annotations:${androidSupportVersion}"
-    androidTestImplementation "com.android.support.test:runner:0.5"
-    androidTestImplementation "com.android.support.test:rules:0.5"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${espressoVersion}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${espressoVersion}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-intents:${espressoVersion}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-web:${espressoVersion}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-idling-resource:${espressoVersion}"
+    androidTestImplementation "androidx.appcompat:appcompat:${androidXVersion.appCompat}"
+    androidTestImplementation "com.google.android.material:material:${androidXVersion.material}"
+    androidTestImplementation "androidx.recyclerview:recyclerview:${androidXVersion.recyclerView}"
+    androidTestImplementation "androidx.legacy:legacy-support-v4:${androidXVersion.legacySupport}"
+    androidTestImplementation "androidx.annotation:annotation:${androidXVersion.annotations}"
+    androidTestImplementation "androidx.test.ext:junit:${androidXTestVersion.junit}"
+    androidTestImplementation "androidx.test:rules:${androidXTestVersion.rules}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${androidXTestVersion.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:${androidXTestVersion.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:${androidXTestVersion.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-web:${androidXTestVersion.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:${androidXTestVersion.espresso}"
 
-    implementation "com.android.support:appcompat-v7:${androidSupportVersion}"
-    implementation "com.android.support:cardview-v7:${androidSupportVersion}"
-    implementation "com.android.support:design:${androidSupportVersion}"
-    implementation "com.android.support:recyclerview-v7:${androidSupportVersion}"
-    implementation "com.android.support:support-v4:${androidSupportVersion}"
-    implementation "com.android.support:support-annotations:${androidSupportVersion}"
+    implementation "androidx.appcompat:appcompat:${androidXVersion.appCompat}"
+    implementation "androidx.cardview:cardview:${androidXVersion.cardView}"
+    implementation "com.google.android.material:material:${androidXVersion.material}"
+    implementation "androidx.recyclerview:recyclerview:${androidXVersion.recyclerView}"
+    implementation "androidx.legacy:legacy-support-v4:${androidXVersion.legacySupport}"
+    implementation "androidx.annotation:annotation:${androidXVersion.annotations}"
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbFlowVersion}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbFlowVersion}"
     implementation "com.github.Raizlabs.DBFlow:dbflow:${dbFlowVersion}"
@@ -128,7 +141,6 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     implementation "com.squareup.okhttp3:okhttp:${okHttpVersion}"
     implementation "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
-    implementation 'io.reactivex:rxjava:1.2.1'
-    implementation 'io.reactivex:rxandroid:1.2.1'
-    implementation 'com.android.support:support-v4:23.3.0'
+    implementation "io.reactivex:rxjava:1.2.1"
+    implementation "io.reactivex:rxandroid:1.2.1"
 }

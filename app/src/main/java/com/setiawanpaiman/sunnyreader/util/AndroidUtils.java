@@ -2,7 +2,7 @@ package com.setiawanpaiman.sunnyreader.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 
 public final class AndroidUtils {
