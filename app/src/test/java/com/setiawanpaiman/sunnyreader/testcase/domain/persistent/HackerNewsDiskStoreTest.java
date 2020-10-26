@@ -23,13 +23,13 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import rx.observers.TestSubscriber;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
+import rx.observers.TestSubscriber;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
@@ -54,12 +54,14 @@ public class HackerNewsDiskStoreTest extends BaseTest {
 
     @Before
     public void setUp() throws Exception {
-        FlowManager.init(new FlowConfig.Builder(RuntimeEnvironment.application).build());
+        FlowManager.init(new FlowConfig.Builder(ApplicationProvider.getApplicationContext())
+                .build());
     }
 
     @After
     public void tearDown() throws Exception {
-        FlowManager.getDatabase(AppDatabase.NAME).reset(RuntimeEnvironment.application);
+        FlowManager.getDatabase(AppDatabase.NAME)
+                .reset(ApplicationProvider.getApplicationContext());
         FlowManager.destroy();
     }
 
