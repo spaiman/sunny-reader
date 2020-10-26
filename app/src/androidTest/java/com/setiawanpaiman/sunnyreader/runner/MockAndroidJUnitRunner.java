@@ -4,7 +4,7 @@ import android.app.Application;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.PowerManager;
-import android.support.test.runner.AndroidJUnitRunner;
+import androidx.test.runner.AndroidJUnitRunner;
 
 import com.setiawanpaiman.sunnyreader.AndroidTestApplication;
 
