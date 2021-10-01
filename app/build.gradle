@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
 
@@ -99,6 +100,8 @@ ext {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     testAnnotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
     testImplementation "junit:junit:4.12"
     testImplementation "androidx.test:core:${androidXTestVersion.core}"
