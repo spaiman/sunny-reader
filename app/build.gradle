@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
 
@@ -91,7 +92,7 @@ ext {
             rules: "1.1.1",
     ]
     retrofitVersion = "2.0.2"
-    daggerVersion = "2.2"
+    daggerVersion = "2.38.1"
     dbFlowVersion = "3.0.0"
     butterKnifeVersion = "8.0.0"
     okHttpVersion = "3.2.0"
@@ -134,12 +135,12 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:${androidXVersion.recyclerView}"
     implementation "androidx.legacy:legacy-support-v4:${androidXVersion.legacySupport}"
     implementation "androidx.annotation:annotation:${androidXVersion.annotations}"
-    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbFlowVersion}"
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbFlowVersion}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbFlowVersion}"
     implementation "com.github.Raizlabs.DBFlow:dbflow:${dbFlowVersion}"
-    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
+    kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
     implementation "com.google.dagger:dagger:${daggerVersion}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
+    kapt "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
     implementation "com.jakewharton:butterknife:${butterKnifeVersion}"
     implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     implementation "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
