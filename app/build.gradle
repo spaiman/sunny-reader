@@ -76,22 +76,21 @@ tasks.coveralls {
 }
 
 ext {
-    androidSupportVersion = "28.0.0"
     androidXVersion = [
-            annotations: "1.0.0",
-            appCompat: "1.0.0",
+            annotations: "1.2.0",
+            appCompat: "1.3.1",
             cardView: "1.0.0",
             legacySupport: "1.0.0",
-            material: "1.0.0",
-            recyclerView: "1.0.0"
+            material: "1.4.0",
+            recyclerView: "1.2.1"
     ]
     androidXTestVersion = [
-            core: "1.2.0",
-            espresso: "3.1.0",
-            junit: "1.1.1",
+            core: "1.4.0",
+            espresso: "3.4.0",
+            junit: "1.1.3",
             rules: "1.1.1",
     ]
-    retrofitVersion = "2.0.2"
+    retrofitVersion = "2.9.0"
     daggerVersion = "2.38.1"
     dbFlowVersion = "3.0.0"
     butterKnifeVersion = "8.0.0"
@@ -104,7 +103,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testAnnotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
-    testImplementation "junit:junit:4.12"
+    testImplementation "junit:junit:4.13.2"
     testImplementation "androidx.test:core:${androidXTestVersion.core}"
     testImplementation "org.hamcrest:hamcrest-library:1.3"
     testImplementation "org.mockito:mockito-core:1.10.19"
