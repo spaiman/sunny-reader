@@ -50,7 +50,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
                       'android/**/*.*',
                       'com/setiawanpaiman/sunnyreader/di/**',
                       'com/setiawanpaiman/sunnyreader/domain/api/**',
-                      'com/raizlabs/**',
                       '**/*_Adapter*.*',
                       '**/*_Table*.*',
                       '**/*_Database*.*',
@@ -92,10 +91,10 @@ ext {
     ]
     retrofitVersion = "2.9.0"
     daggerVersion = "2.38.1"
-    dbFlowVersion = "3.0.0"
     butterKnifeVersion = "8.0.0"
     okHttpVersion = "3.2.0"
     robolectricVersion = "4.2.1"
+    roomVersion = "2.4.3"
 }
 
 dependencies {
@@ -134,9 +133,9 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:${androidXVersion.recyclerView}"
     implementation "androidx.legacy:legacy-support-v4:${androidXVersion.legacySupport}"
     implementation "androidx.annotation:annotation:${androidXVersion.annotations}"
-    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbFlowVersion}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbFlowVersion}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbFlowVersion}"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+
     kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
     implementation "com.google.dagger:dagger:${daggerVersion}"
     kapt "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"

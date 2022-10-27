@@ -68,7 +68,7 @@ public class ApplicationModule {
     @Singleton
     HackerNewsPersistent providesHackerNewsPersistent(JsonParser jsonParser,
                                                       SharedPreferences sharedPreferences) {
-        return new HackerNewsDiskStore(jsonParser, sharedPreferences);
+        return new HackerNewsDiskStore(mApplication.getApplicationContext(), jsonParser, sharedPreferences);
     }
 
     @Provides

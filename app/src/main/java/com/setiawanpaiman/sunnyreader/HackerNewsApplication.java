@@ -2,8 +2,6 @@ package com.setiawanpaiman.sunnyreader;
 
 import android.app.Application;
 
-import com.raizlabs.android.dbflow.config.FlowConfig;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.setiawanpaiman.sunnyreader.di.component.ApplicationComponent;
 import com.setiawanpaiman.sunnyreader.di.component.DaggerApplicationComponent;
 import com.setiawanpaiman.sunnyreader.di.module.ApplicationModule;
@@ -15,7 +13,6 @@ public class HackerNewsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        FlowManager.init(new FlowConfig.Builder(this).build());
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
