@@ -1,10 +1,15 @@
 package com.setiawanpaiman.sunnyreader.testcase.domain.persistent;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
+
 import android.content.SharedPreferences;
 
-import com.raizlabs.android.dbflow.config.FlowConfig;
-import com.raizlabs.android.dbflow.config.FlowManager;
-import com.setiawanpaiman.sunnyreader.data.db.AppDatabase;
+import androidx.test.core.app.ApplicationProvider;
+
 import com.setiawanpaiman.sunnyreader.data.model.Comment;
 import com.setiawanpaiman.sunnyreader.data.model.Story;
 import com.setiawanpaiman.sunnyreader.domain.persistent.HackerNewsDiskStore;
@@ -13,8 +18,6 @@ import com.setiawanpaiman.sunnyreader.mockdata.MockStory;
 import com.setiawanpaiman.sunnyreader.testcase.BaseTest;
 import com.setiawanpaiman.sunnyreader.util.JsonParser;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,14 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
 import rx.observers.TestSubscriber;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class HackerNewsDiskStoreTest extends BaseTest {
@@ -51,19 +47,6 @@ public class HackerNewsDiskStoreTest extends BaseTest {
 
     @InjectMocks
     HackerNewsDiskStore mHackerNewsDiskStore;
-
-    @Before
-    public void setUp() throws Exception {
-        FlowManager.init(new FlowConfig.Builder(ApplicationProvider.getApplicationContext())
-                .build());
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        FlowManager.getDatabase(AppDatabase.NAME)
-                .reset(ApplicationProvider.getApplicationContext());
-        FlowManager.destroy();
-    }
 
     // BEGIN: GET TOP STORIES
     @Test
@@ -193,7 +176,8 @@ public class HackerNewsDiskStoreTest extends BaseTest {
     @Test
     public void testSaveTopStories() throws Exception {
         List<Long> topStories = Arrays.asList(10L, 20L, 30L, 40L, 50L, 60L);
-        HackerNewsDiskStore hackerNewsDiskStore = new HackerNewsDiskStore(mJsonParser,
+        HackerNewsDiskStore hackerNewsDiskStore = new HackerNewsDiskStore(ApplicationProvider.getApplicationContext(),
+                mJsonParser,
                 getApplicationComponent().providesSharedPreferences());
         hackerNewsDiskStore.saveTopStories(topStories);
 
@@ -210,7 +194,8 @@ public class HackerNewsDiskStoreTest extends BaseTest {
 
     @Test
     public void testSaveTopStoriesNull() throws Exception {
-        HackerNewsDiskStore hackerNewsDiskStore = new HackerNewsDiskStore(mJsonParser,
+        HackerNewsDiskStore hackerNewsDiskStore = new HackerNewsDiskStore(ApplicationProvider.getApplicationContext(),
+                mJsonParser,
                 getApplicationComponent().providesSharedPreferences());
         hackerNewsDiskStore.saveTopStories(null);
 
